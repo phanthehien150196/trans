@@ -8,7 +8,7 @@
 1. Clone repository:
    ```
    git clone https://github.com/phanthehien150196/trans.git
-   hoặc [Download ZIP](https://github.com/phanthehien150196/trans/archive/refs/heads/main.zip)
+   hoặc Download ZIP
    ```
 2. Mở thư mục dự án:
    ```
