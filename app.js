@@ -1878,7 +1878,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 ],
                 generationConfig: {
-                    temperature: 1,
+                    temperature: 0.7,
                     topK: 64,
                     topP: 0.95,
                     maxOutputTokens: 65536,
