@@ -7,11 +7,11 @@
 ### Cài đặt từ GitHub
 1. Clone repository:
    ```
-   git clone https://github.com/your-username/dich-gemini.git
+   git clone https://github.com/phanthehien150196/trans.git
    ```
 2. Mở thư mục dự án:
    ```
-   cd dich-gemini
+   cd trans
    ```
 3. Mở file `index.html` trong trình duyệt của bạn hoặc sử dụng máy chủ web đơn giản:
    ```
