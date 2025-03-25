@@ -8,19 +8,13 @@
 1. Clone repository:
    ```
    git clone https://github.com/phanthehien150196/trans.git
+   hoặc [Download ZIP](https://github.com/phanthehien150196/trans/archive/refs/heads/main.zip)
    ```
 2. Mở thư mục dự án:
    ```
    cd trans
    ```
-3. Mở file `index.html` trong trình duyệt của bạn hoặc sử dụng máy chủ web đơn giản:
-   ```
-   # Nếu bạn có Python
-   python -m http.server 8000
-   
-   # Nếu bạn có Node.js
-   npx serve
-   ```
+3. Mở file `index.html` trong trình duyệt của bạn
 
 ## Tính năng
 
@@ -40,7 +34,7 @@
 
 ## Hướng dẫn sử dụng
 
-1. **API Key**: Đăng ký tài khoản tại [Google AI Studio](https://makersuite.google.com/app/apikey) và nhập API key vào ứng dụng.
+1. **API Key**: Đăng ký tài khoản tại [Google AI Studio](https://aistudio.google.com/apikey) và nhập API key vào ứng dụng.
 2. **Thiết lập nhân vật**: Thêm các nhân vật trong câu chuyện của bạn.
 3. **Thiết lập mối quan hệ**: Mô tả mối quan hệ giữa các nhân vật (ví dụ: "A là em gái của B").
 4. **Thiết lập xưng hô**: Chọn cách các nhân vật gọi nhau và cách họ tự xưng.
@@ -89,12 +83,6 @@ Kết quả dịch được hiển thị dưới dạng văn bản thuần túy,
 
 Người dùng có thể theo dõi tiến trình của từng bước thông qua thanh trạng thái hiển thị trong quá trình dịch. Kết quả cuối cùng là bản dịch đã được trau chuốt, có văn phong tự nhiên, phong phú về cảm xúc và chính xác về mặt nội dung.
 
-## Cấu trúc dự án
-
-- `index.html`: Cấu trúc HTML của ứng dụng
-- `styles.css`: Định dạng và giao diện ứng dụng
-- `app.js`: Logic xử lý và tương tác với API
-
 ## Lưu ý
 
 - API key của Google Gemini được lưu trong máy của bạn và không được gửi đi nơi khác.
@@ -112,8 +100,8 @@ Người dùng có thể theo dõi tiến trình của từng bước thông qua
 
 Dữ liệu của ứng dụng được lưu trữ dưới dạng file JSON trên máy tính của bạn thay vì sử dụng localStorage của trình duyệt. Điều này giúp dữ liệu được bảo quản an toàn hơn và có thể dễ dàng chuyển đổi giữa các thiết bị.
 
-- Nhấn nút **Xuất JSON** để tải xuống file cài đặt dưới dạng JSON.
-- Nhấn nút **Nhập JSON** để tải lên file cài đặt đã lưu trước đó.
+- Nhấn nút **Tải file cài đặt** để tải xuống file cài đặt dưới dạng JSON.
+- Nhấn nút **Nhập file cài đặt** để tải lên file cài đặt đã lưu trước đó.
 - Ứng dụng cũng sẽ tự động lưu cài đặt định kỳ mỗi 60 giây nếu có sự thay đổi.
 - Bạn sẽ được cảnh báo khi rời khỏi trang mà chưa lưu thay đổi.
 
@@ -123,4 +111,4 @@ Nếu bạn gặp vấn đề với ứng dụng, vui lòng liên hệ để đ�
 
 ---
 
-© 2024 Ứng dụng Dịch Thuật AI 
+© 2025 Ứng dụng Dịch Thuật AI 
