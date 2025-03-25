@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hướng dẫn sử dụng công cụ dịch thuật manga đen trắng - Chi tiết từng bước cách sử dụng công cụ dịch với phong cách manga đen trắng tối giản">
+    <meta name="keywords" content="hướng dẫn dịch manga, dịch thuật AI, manga đen trắng, xưng hô chính xác, tutorial dịch thuật">
+    <meta name="author" content="Động Mòe">
+    <meta property="og:title" content="Hướng dẫn sử dụng - Công cụ dịch thuật Manga đen trắng">
+    <meta property="og:description" content="Hướng dẫn chi tiết cách sử dụng công cụ dịch thuật manga với phong cách đen trắng tối giản. Cách cài đặt, tùy chỉnh và sử dụng hiệu quả.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://trans.moetruyen.net/huong-dan-su-dung.html">
+    <meta property="og:image" content="images/dich.jpg">
+    <title>Hướng dẫn sử dụng | Công cụ dịch thuật Manga đen trắng</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/dich.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Sửa lỗi icon bị đè lên chữ */
+        .step-guide h2 i, 
+        .step-guide h3 i {
+            margin-right: 10px;
+            min-width: 20px;
+        }
+        
+        .table-of-contents li::before {
+            margin-right: 5px;
+        }
+        
+        .example::before, 
+        .note::before, 
+        .tip::before, 
+        .warning::before {
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Tùy chỉnh thêm cho header manga */
+        .site-header {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .site-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: repeating-linear-gradient(90deg, #fff, #fff 10px, transparent 10px, transparent 20px);
+        }
+        
+        .main-nav {
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #333;
+        }
+        
+        .main-nav::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: repeating-linear-gradient(90deg, #333, #333 5px, transparent 5px, transparent 10px);
+        }
+        
+        .nav-links li a {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-links li a.active::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #fff;
+        }
+        
+        /* Style phong cách manga */
+        .hero {
+            border-bottom: 2px solid #fff;
+            position: relative;
+        }
+        
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: repeating-linear-gradient(90deg, #333, #333 10px, transparent 10px, transparent 20px);
+        }
+        
+        .hero h1 {
+            position: relative;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid #fff;
+            padding: 5px 15px;
+            transform: skew(-5deg);
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero h1::before {
+            content: "";
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .step-box {
+            border: 1px solid #000;
+        }
+        
+        .step-box:hover {
+            box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.8);
+        }
+        
+        .table-of-contents {
+            position: relative;
+            box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.8);
+            border: 1px solid #000;
+        }
+        
+        .step-guide {
+            box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.8);
+            border: 1px solid #000;
+            border-left: 4px solid #000;
+        }
+        
+        .example, .note, .tip, .warning {
+            border: 1px solid #000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="site-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <h1>Hướng dẫn sử dụng</h1>
+                        <p class="tagline">Cách sử dụng công cụ dịch thuật Manga</p>
+                    </div>
+                    <div class="header-actions">
+                        <a href="https://discord.gg/pf26Duy" target="_blank" class="btn-outline">
+                            <i class="fab fa-discord"></i> Discord
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-container">
+                    <ul class="nav-links">
+                        <li><a href="index.html"><i class="fas fa-home"></i> Trang Chủ</a></li>
+                        <li><a href="huong-dan-su-dung.html" class="active"><i class="fas fa-book"></i> Hướng Dẫn</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <main class="site-main">
+            <div class="container">
+                <div class="table-of-contents">
+                    <h2><i class="fas fa-list"></i> Mục Lục</h2>
+                    <ul>
+                        <li><a href="#gioi-thieu">1. Giới thiệu về công cụ</a></li>
+                        <li><a href="#cai-dat">2. Cài đặt ban đầu</a></li>
+                        <li><a href="#nhan-vat">3. Thiết lập nhân vật</a></li>
+                        <li><a href="#moi-quan-he">4. Mối quan hệ và xưng hô</a></li>
+                        <li><a href="#van-phong">5. Thể loại và văn phong</a></li>
+                        <li><a href="#bieu-hien">6. Biểu hiện/dạng thoại</a></li>
+                        <li><a href="#yeu-cau">7. Yêu cầu bổ sung</a></li>
+                        <li><a href="#boi-canh">8. Thiết lập bối cảnh</a></li>
+                        <li><a href="#luu-tai">9. Lưu và tải cài đặt</a></li>
+                        <li><a href="#tai-len">10. Tải lên văn bản</a></li>
+                        <li><a href="#dich-thuat">11. Quy trình dịch thuật</a></li>
+                        <li><a href="#tinh-chinh">12. Tinh chỉnh kết quả</a></li>
+                        <li><a href="#luu-y">13. Lưu ý quan trọng</a></li>
+                        <li><a href="#meo">14. Mẹo nâng cao</a></li>
+                    </ul>
+                </div>
+
+                <section id="gioi-thieu" class="step-guide">
+                    <h2><i class="fas fa-info-circle"></i> 1. Giới Thiệu Về Công Cụ</h2>
+                    <p>Công cụ dịch thuật truyện bằng AI là ứng dụng web giúp dịch nội dung từ tiếng nước ngoài sang tiếng Việt với chất lượng cao. Điểm mạnh chính của công cụ:</p>
+                    <ul>
+                        <li>Duy trì xưng hô đúng giữa các nhân vật</li>
+                        <li>Giữ nguyên mối quan hệ giữa các nhân vật</li>
+                        <li>Tinh chỉnh văn phong phù hợp với thể loại</li>
+                        <li>Quy trình dịch 2 lần để nâng cao chất lượng</li>
+                    </ul>
+                    
+                    <div class="note">
+                        <p><strong>Lưu ý:</strong> Công cụ này sử dụng API từ Google Gemini để kết nối với các mô hình AI, bạn cần có API key để sử dụng.</p>
+                    </div>
+                </section>
+
+                <section id="cai-dat" class="step-guide">
+                    <h3><i class="fas fa-key"></i> 2. Cài Đặt Ban Đầu</h3>
+                    <p>Để bắt đầu sử dụng công cụ, bạn cần thực hiện các bước cài đặt sau:</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Đăng ký tài khoản Google</h4>
+                            <p>Truy cập <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a> và đăng nhập bằng tài khoản Google của bạn.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Lấy API key</h4>
+                            <p>Tạo API key mới trong trang <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a>.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Nhập API key vào website</h4>
+                            <p>Mở website, và dán API key vào ô tương ứng.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>Mẹo:</strong> Hãy lưu lại API key ở một nơi an toàn để sử dụng lại sau này. Bạn có thể lưu cài đặt bằng nút "Lưu cài đặt" trên trang chủ.</p>
+                    </div>
+                </section>
+
+                <section id="nhan-vat" class="step-guide">
+                    <h3><i class="fas fa-users"></i> 3. Thiết Lập Danh Sách Nhân Vật</h3>
+                    <p>Việc xác định rõ danh sách nhân vật là bước quan trọng để AI hiểu và duy trì xưng hô chính xác:</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Thêm tên nhân vật</h4>
+                            <p>Trong phần "Danh sách nhân vật", nhấp vào nút "Thêm nhân vật" để tạo các mục nhập mới.</p>
+                            <p>Nhập tên của từng nhân vật trong truyện. Mỗi nhân vật được nhập vào một mục riêng.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Chỉ định vai trò (không bắt buộc)</h4>
+                            <p>Bạn có thể bổ sung thông tin về vai trò của nhân vật trong ngoặc đơn, ví dụ: (nhân vật chính), (phản diện)...</p>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <p><strong>Ví dụ về danh sách nhân vật:</strong></p>
+                        <ul>
+                            <li>Trần Văn A (nhân vật chính)</li>
+                            <li>Nguyễn Thị B (bạn gái)</li>
+                            <li>Lê Văn C (đối thủ)</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="moi-quan-he" class="step-guide">
+                    <h3><i class="fas fa-link"></i> 4. Định Nghĩa Mối Quan Hệ và Xưng Hô</h3>
+                    <p>Đây là phần <strong>quan trọng nhất</strong> để đảm bảo xưng hô trong bản dịch được chính xác:</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Xác định mối quan hệ</h4>
+                            <p>Trong phần "Mối quan hệ nhân vật", nhấp vào nút "Thêm mối quan hệ" và mô tả chi tiết mối quan hệ giữa các nhân vật.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Định nghĩa xưng hô</h4>
+                            <p>Trong phần "Xưng hô giữa các nhân vật", nhấp nút "Thêm xưng hô" và chỉ định cách các nhân vật gọi nhau.</p>
+                            <p>Chọn nhân vật gốc từ danh sách, nhân vật đích, rồi nhập từ xưng hô tương ứng.</p>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <p><strong>Ví dụ về mối quan hệ:</strong></p>
+                        <ul>
+                            <li>A là anh trai của B</li>
+                            <li>C là kẻ thù của A</li>
+                            <li>D là thầy giáo của A và B</li>
+                        </ul>
+                        
+                        <p><strong>Ví dụ về xưng hô:</strong></p>
+                        <ul>
+                            <li>A gọi B là "em", B gọi A là "anh"</li>
+                            <li>A gọi C là "ngươi", C gọi A là "tên khốn"</li>
+                            <li>A và B gọi D là "thầy", D gọi A và B là "trò"</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="warning">
+                        <p><strong>Quan trọng:</strong> Xưng hô là yếu tố then chốt cần duy trì trong bản dịch. Càng định nghĩa chi tiết, kết quả dịch càng chính xác.</p>
+                    </div>
+                </section>
+
+                <section id="van-phong" class="step-guide">
+                    <h3><i class="fas fa-feather-alt"></i> 5. Cài Đặt Thể Loại và Văn Phong</h3>
+                    <p>Việc chỉ định thể loại và văn phong giúp AI điều chỉnh cách diễn đạt phù hợp:</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Chọn thể loại</h4>
+                            <p>Trong phần "Thể loại", nhập thể loại truyện (ví dụ: kiếm hiệp, hiện đại, khoa học viễn tưởng).</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Xác định văn phong</h4>
+                            <p>Trong phần "Văn phong", mô tả phong cách văn chương mong muốn (ví dụ: trang trọng, hài hước, triết lý).</p>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <p><strong>Ví dụ cài đặt:</strong></p>
+                        <p>Thể loại: Tiên hiệp</p>
+                        <p>Văn phong: Trang nghiêm, cổ phong, sử dụng nhiều thành ngữ cổ</p>
+                    </div>
+                </section>
+
+                <section id="bieu-hien" class="step-guide">
+                    <h3><i class="fas fa-theater-masks"></i> 6. Biểu Hiện/Dạng Thoại</h3>
+                    <p>Phần này giúp AI hiểu cách diễn đạt cảm xúc và trạng thái của nhân vật trong từng câu nói:</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Thêm biểu hiện/dạng thoại</h4>
+                            <p>Trong phần "Danh sách biểu hiện/dạng thoại", nhấp nút "Thêm biểu hiện" và nhập các trạng thái hoặc cảm xúc.</p>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <p><strong>Các biểu hiện/dạng thoại thông dụng:</strong></p>
+                        <ul>
+                            <li>Giữ nguyên (dùng cho nội dung không cần dịch)</li>
+                            <li>Vui vẻ</li>
+                            <li>Buồn bã</li>
+                            <li>Giận dữ</li>
+                            <li>Bình thường</li>
+                            <li>Thì thầm</li>
+                            <li>Hét lớn</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>Mẹo:</strong> Không quên thêm "Giữ nguyên" vào danh sách để đánh dấu những câu không cần dịch hoặc cần giữ nguyên định dạng.</p>
+                    </div>
+                </section>
+
+                <section id="yeu-cau" class="step-guide">
+                    <h3><i class="fas fa-clipboard-list"></i> 7. Yêu Cầu Bổ Sung</h3>
+                    <p>Nếu có các yêu cầu đặc biệt khác cho bản dịch, bạn có thể thêm vào đây:</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Thêm yêu cầu</h4>
+                            <p>Trong phần "Yêu cầu", nhập các yêu cầu đặc biệt cho bản dịch.</p>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <p><strong>Ví dụ các yêu cầu:</strong></p>
+                        <ul>
+                            <li>Giữ nguyên tên các kỹ năng, bùa chú</li>
+                            <li>Dùng từ ngữ hiện đại khi nhân vật nói chuyện hàng ngày</li>
+                            <li>Giữ nguyên tên địa điểm</li>
+                            <li>Tránh lặp từ</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="boi-canh" class="step-guide">
+                    <h3><i class="fas fa-globe-asia"></i> 8. Thiết Lập Bối Cảnh</h3>
+                    <p>Bối cảnh là thông tin nền giúp AI hiểu rõ hơn về tình huống, môi trường và các điều kiện xung quanh câu chuyện:</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Thêm bối cảnh</h4>
+                            <p>Trong phần "Bối cảnh", bạn có thể thêm thông tin về thời điểm, địa điểm, tình huống hiện tại của câu chuyện.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Mô tả chi tiết</h4>
+                            <p>Bạn có thể bổ sung các thông tin chi tiết về:</p>
+                            <ul>
+                                <li>Bối cảnh thời gian (thời hiện đại, cổ đại, tương lai...)</li>
+                                <li>Địa điểm (vương quốc, thành phố, làng mạc...)</li>
+                                <li>Tình huống đang diễn ra (chiến tranh, lễ hội, sinh hoạt...)</li>
+                                <li>Điều kiện môi trường (thời tiết, không gian...)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <p><strong>Ví dụ bối cảnh:</strong></p>
+                        <p>Thời điểm: Vương quốc Aloria thời trung cổ, đang trong giai đoạn đầu của một cuộc nội chiến.</p>
+                        <p>Địa điểm: Khu rừng cổ Elderwood gần biên giới, nơi các nhân vật đang trú ẩn để tránh quân đội hoàng gia.</p>
+                        <p>Tình huống: Trời đang đổ mưa, đêm tối, nhóm nhân vật đang nghỉ chân tại một hang động nhỏ và thảo luận kế hoạch tiếp theo.</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>Mẹo:</strong> Bối cảnh càng chi tiết, AI càng có thể tạo ra bản dịch phù hợp với không khí và tình huống của câu chuyện. Đặc biệt hữu ích khi dịch các tác phẩm giả tưởng hoặc khoa học viễn tưởng.</p>
+                    </div>
+                </section>
+
+                <section id="luu-tai" class="step-guide">
+                    <h3><i class="fas fa-save"></i> 9. Lưu và Tải Cài Đặt</h3>
+                    <p>Công cụ cho phép bạn lưu lại tất cả các cài đặt (nhân vật, xưng hô, thể loại...) để sử dụng lại sau này, tiết kiệm thời gian khi dịch nhiều đoạn văn bản cùng một truyện:</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Lưu cài đặt</h4>
+                            <p>Lưu các cài đặt hiện tại vào bộ nhớ của trình duyệt:</p>
+                            <ul>
+                                <li>Sau khi thiết lập xong tất cả thông tin (nhân vật, mối quan hệ, xưng hô, thể loại, văn phong...), nhấp vào nút "Lưu cài đặt"</li>
+                                <li>Nhập tên cho bản cài đặt này (ví dụ: "Truyện ABC - Chương 1-10")</li>
+                                <li>Nhấn "Xác nhận" để lưu lại</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Load cài đặt</h4>
+                            <p>Tải lại những cài đặt đã lưu trong trình duyệt:</p>
+                            <ul>
+                                <li>Nhấp vào nút "Load cài đặt"</li>
+                                <li>Chọn bản cài đặt mong muốn từ danh sách đã lưu</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Tải file cài đặt</h4>
+                            <p>Tải bản cài đặt về máy dưới dạng file JSON để có thể sử dụng ở bất kỳ đâu:</p>
+                            <ul>
+                                <li>Nhấp vào nút "Tải file cài đặt"</li>
+                                <li>Công cụ sẽ tạo và tải xuống một file JSON chứa toàn bộ cài đặt hiện tại</li>
+                                <li>Lưu file này vào máy tính để sử dụng sau hoặc chia sẻ với người khác</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Nhập file cài đặt</h4>
+                            <p>Nhập file JSON cài đặt từ máy tính vào công cụ:</p>
+                            <ul>
+                                <li>Nhấp vào nút "Nhập file cài đặt"</li>
+                                <li>Chọn file JSON chứa cài đặt từ máy tính của bạn</li>
+                                <li>Công cụ sẽ đọc file và áp dụng tất cả cài đặt vào giao diện</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="example">
+                        <p><strong>Tình huống sử dụng:</strong></p>
+                        <p>Khi dịch một bộ truyện nhiều tập với các nhân vật cố định:</p>
+                        <ul>
+                            <li>Thiết lập thông tin một lần và sử dụng "Lưu cài đặt" để lưu vào trình duyệt</li>
+                            <li>Sử dụng "Tải file cài đặt" để tạo bản sao lưu trên máy tính</li>
+                            <li>Khi cần dịch tiếp, dùng "Load cài đặt" hoặc "Nhập file cài đặt" (nếu bạn đang sử dụng máy tính khác)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>Mẹo:</strong> Tạo nhiều bản cài đặt khác nhau cho các truyện khác nhau hoặc cho các giai đoạn khác nhau của cùng một truyện.</p>
+                    </div>
+
+                    <div class="warning">
+                        <p><strong>Lưu ý:</strong> Cài đặt được lưu trong trình duyệt (localStorage) có thể bị mất nếu bạn xóa dữ liệu trình duyệt. Luôn sử dụng tính năng "Tải file cài đặt" để có bản sao lưu an toàn trên máy tính.</p>
+                    </div>
+                </section>
+
+                <section id="tai-len" class="step-guide">
+                    <h3><i class="fas fa-file-upload"></i> 10. Tải Lên Văn Bản Gốc</h3>
+                    <p>Sau khi hoàn tất các cài đặt, bạn có thể tải lên văn bản cần dịch:</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Chọn file</h4>
+                            <p>Nhấn nút "Tải lên tệp văn bản" trong phần "Văn bản gốc" và chọn file text (.txt) chứa nội dung cần dịch.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Điền thông tin cho từng dòng</h4>
+                            <p>Sau khi tải lên, văn bản sẽ hiển thị dưới dạng bảng. Cho mỗi dòng, bạn cần:</p>
+                            <ul>
+                                <li>Chọn nhân vật (nếu dòng đó là lời thoại)</li>
+                                <li>Chọn biểu hiện/dạng thoại phù hợp</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Quản lý dòng văn bản</h4>
+                            <p>Bạn có thể:</p>
+                            <ul>
+                                <li>Thêm dòng mới: Nhấn nút "Thêm dòng mới" ở cuối bảng văn bản</li>
+                                <li>Xóa dòng: Nhấn biểu tượng xóa (thùng rác) bên cạnh dòng bạn muốn xóa</li>
+                                <li>Chỉnh sửa dòng: Click đúp vào dòng cần chỉnh sửa để hiện ô chỉnh sửa dòng đó</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>Mẹo:</strong> Với những dòng là nội dung miêu tả hoặc không phải lời thoại, có thể để trống phần nhân vật.</p>
+                    </div>
+                </section>
+
+                <section id="dich-thuat" class="step-guide">
+                    <h3><i class="fas fa-language"></i> 11. Thực Hiện Dịch Thuật</h3>
+                    <p>Sau khi hoàn tất tất cả các cài đặt và tải lên văn bản gốc, bạn có thể tiến hành dịch thuật:</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Kiểm tra thông tin</h4>
+                            <p>Đảm bảo tất cả các thông tin được nhập chính xác, đặc biệt là:</p>
+                            <ul>
+                                <li>API key</li>
+                                <li>Thông tin nhân vật</li>
+                                <li>Mối quan hệ và cách xưng hô</li>
+                                <li>Thiết lập biểu hiện cho từng dòng văn bản</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Bấm "Dịch văn bản"</h4>
+                            <p>Nhấn nút "Dịch văn bản" để bắt đầu quá trình dịch thuật.</p>
+                            <p>Hệ thống sẽ xử lý dịch thuật và trau chuốt rồi cập nhật kết quả dịch trong "Kết quả dịch".</p>
+                            <p>Bấm "Trau chuốt lần nữa" nếu muốn trau chuốt kết quả dịch thêm một lần nữa.</p>
+                        </div>
+                    </div>
+
+                    <div class="note">
+                        <p><strong>Lưu ý:</strong> Quá trình dịch có thể mất thời gian tùy thuộc vào độ dài văn bản và tình trạng API.</p>
+                    </div>
+                </section>
+
+                <section id="tinh-chinh" class="step-guide">
+                    <h3><i class="fas fa-pencil-alt"></i> 12. Tinh Chỉnh Kết Quả</h3>
+                    <p>Sau khi quá trình dịch hoàn tất, bạn cần kiểm tra và tinh chỉnh kết quả:</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Kiểm tra xưng hô</h4>
+                            <p>Duyệt qua kết quả dịch và đảm bảo xưng hô giữa các nhân vật được duy trì đúng như bạn đã định nghĩa.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Kiểm tra văn phong</h4>
+                            <p>Xem xét liệu văn phong có phù hợp với thể loại truyện không và có đáp ứng yêu cầu bạn đã đặt ra không.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Lưu kết quả</h4>
+                            <p>Sau khi hài lòng với kết quả, bạn có thể sao chép hoặc lưu kết quả dịch.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="luu-y" class="step-guide">
+                    <h3><i class="fas fa-exclamation-triangle"></i> 13. Những Lưu Ý Quan Trọng</h3>
+                    <p>Một số điểm cần lưu ý khi sử dụng công cụ:</p>
+                    
+                    <div class="warning">
+                        <p><strong>Giữ nguyên văn bản:</strong> Nếu có câu không cần dịch, hãy thêm "Giữ nguyên" vào phần biểu hiện/trạng thái cho câu văn đó.</p>
+                    </div>
+                    
+                    <div class="warning">
+                        <p><strong>API giới hạn:</strong> Google Gemini API có thể có giới hạn về số lượng yêu cầu hoặc token. Hãy kiểm tra tài khoản của bạn nếu gặp lỗi.</p>
+                    </div>
+                    
+                    <div class="warning">
+                        <p><strong>Văn bản quá dài:</strong> Nếu văn bản quá dài, hãy chia nhỏ thành nhiều phần để dịch riêng biệt.</p>
+                    </div>
+                    
+                    <div class="warning">
+                        <p><strong>Kiểm tra kết quả:</strong> Luôn kiểm tra kết quả dịch trước khi sử dụng. AI có thể mắc lỗi, đặc biệt với các đoạn phức tạp.</p>
+                    </div>
+                </section>
+
+                <section id="meo" class="step-guide">
+                    <h3><i class="fas fa-lightbulb"></i> 14. Mẹo và Thủ Thuật Nâng Cao</h3>
+                    <p>Một số mẹo để tối ưu kết quả dịch:</p>
+                    
+                    <div class="tip-grid">
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-globe"></i></div>
+                            <h4>Sử dụng bối cảnh</h4>
+                            <p>Thêm bối cảnh trong phần "Bối cảnh" để giúp AI hiểu rõ hơn về tình huống trong truyện.</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-comment-dots"></i></div>
+                            <h4>Định nghĩa xưng hô chi tiết</h4>
+                            <p>Càng chi tiết về xưng hô giữa các nhân vật, kết quả dịch càng chính xác.</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-file-alt"></i></div>
+                            <h4>Dịch theo đoạn</h4>
+                            <p>Thay vì dịch cả chương một lúc, hãy chia nhỏ thành các đoạn có liên quan đến nhau.</p>
+                        </div>
+                        
+                        <div class="tip-card">
+                            <div class="tip-icon"><i class="fas fa-save"></i></div>
+                            <h4>Tạo bản mẫu</h4>
+                            <p>Tạo một bản cài đặt mẫu với các nhân vật chính và mối quan hệ để tái sử dụng cho các chương tiếp theo.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>Mẹo cao cấp:</strong> Đối với các truyện dài nhiều tập, hãy tạo một tài liệu riêng để lưu trữ tất cả thông tin về nhân vật, mối quan hệ và xưng hô để dễ dàng tham khảo.</p>
+                    </div>
+                </section>
+                
+                <div class="quick-nav">
+                    <h3><i class="fas fa-link"></i> Truy cập nhanh</h3>
+                    <div class="quick-links">
+                        <a href="#gioi-thieu" class="btn btn-sm">1. Giới thiệu</a>
+                        <a href="#cai-dat" class="btn btn-sm">2. Cài đặt</a>
+                        <a href="#nhan-vat" class="btn btn-sm">3. Nhân vật</a>
+                        <a href="#moi-quan-he" class="btn btn-sm">4. Xưng hô</a>
+                        <a href="#van-phong" class="btn btn-sm">5. Văn phong</a>
+                        <a href="#bieu-hien" class="btn btn-sm">6. Biểu hiện</a>
+                        <a href="#yeu-cau" class="btn btn-sm">7. Yêu cầu</a>
+                        <a href="#boi-canh" class="btn btn-sm">8. Bối cảnh</a>
+                        <a href="#luu-tai" class="btn btn-sm">9. Lưu/tải</a>
+                        <a href="#tai-len" class="btn btn-sm">10. Tải lên</a>
+                        <a href="#dich-thuat" class="btn btn-sm">11. Dịch thuật</a>
+                        <a href="#tinh-chinh" class="btn btn-sm">12. Tinh chỉnh</a>
+                        <a href="#luu-y" class="btn btn-sm">13. Lưu ý</a>
+                        <a href="#meo" class="btn btn-sm">14. Mẹo</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-column">
+                        <h3>Liên kết hữu ích</h3>
+                        <ul>
+                            <li><a href="https://makersuite.google.com" target="_blank"><i class="fas fa-robot"></i> Google Gemini API</a></li>
+                            <li><a href="index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+                            <li><a href="https://discord.gg/pf26Duy" target="_blank"><i class="fa-brands fa-discord"></i> Discord Động Mòe</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>© 2025 Công cụ dịch thuật Manga | Phát triển bởi Động Mòe</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html> 

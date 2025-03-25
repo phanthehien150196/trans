@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Công cụ dịch thuật manga - Dịch văn bản và truyện với xưng hô chính xác, văn phong tự nhiên. Phong cách manga.">
+    <meta name="keywords" content="dịch thuật AI, truyện manga, dịch manga, Gemini Pro, xưng hô chính xác, công cụ dịch, AI Việt Nam, manga">
+    <meta name="author" content="Động Mòe">
+    <meta property="og:title" content="Công cụ dịch thuật Manga">
+    <meta property="og:description" content="Dịch truyện manga với AI tiên tiến, giữ nguyên xưng hô và văn phong">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://trans.moetruyen.net">
+    <meta property="og:image" content="images/dich.jpg">
+    <title>Công cụ dịch thuật Manga</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/dich.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <style>
+        /* Tùy chỉnh cho nav */
+        .main-nav {
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #333;
+        }
+        
+        .main-nav::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: repeating-linear-gradient(90deg, #333, #333 5px, transparent 5px, transparent 10px);
+        }
+        
+        .nav-links li a {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-links li a.active::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="site-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <h1>Công cụ dịch thuật Manga</h1>
+                        <p class="tagline">Dịch truyện với xưng hô chính xác</p>
+                    </div>
+                    <div class="header-actions">
+                        <a href="https://discord.gg/pf26Duy" target="_blank" class="btn-outline">
+                            <i class="fab fa-discord"></i> Discord
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-container">
+                    <ul class="nav-links">
+                        <li><a href="index.html" class="active"><i class="fas fa-home"></i> Trang Chủ</a></li>
+                        <li><a href="huong-dan-su-dung.html"><i class="fas fa-book"></i> Hướng Dẫn</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <main class="site-main">
+            <div class="container">
+                <div class="intro-section">
+                    <div class="intro-content">
+                        <h2>Công cụ hỗ trợ dịch thuật manga</h2>
+                        <p>Kết hợp AI tiên tiến để dịch văn bản với xưng hô chính xác, giữ nguyên cảm xúc của nguyên tác.</p>
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <i class="fas fa-robot"></i>
+                                <span>AI dịch tiên tiến</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-language"></i>
+                                <span>Xưng hô chính xác</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>Trau chuốt 2 lần</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-book"></i>
+                                <span>Phong cách manga</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="app-container">
+                    <div class="settings-panel">
+                        <h2><i class="fas fa-cogs"></i> Cài đặt dịch thuật</h2>
+                        
+                        <div class="settings-controls">
+                            <button id="save-settings" class="btn btn-secondary">
+                                <i class="fas fa-save"></i> Lưu cài đặt
+                            </button>
+                            <button id="load-settings" class="btn btn-secondary">
+                                <i class="fas fa-folder-open"></i> Tải cài đặt
+                            </button>
+                            <button id="export-json" class="btn btn-secondary">
+                                <i class="fas fa-file-export"></i> Tải file cài đặt
+                            </button>
+                            <button id="import-json-btn" class="btn btn-secondary">
+                                <i class="fas fa-file-import"></i> Nhập file cài đặt
+                            </button>
+                            <input type="file" id="import-json" accept=".json" style="display: none;">
+                            <button id="reset-settings" class="btn btn-warning">
+                                <i class="fas fa-sync-alt"></i> Reset tất cả
+                            </button>
+                        </div>
+                        
+                        <div class="notice">
+                            <div class="notice-header">
+                                <i class="fas fa-info-circle"></i> Thông tin quan trọng
+                            </div>
+                            <div class="notice-content">
+                                <p><strong>Lưu ý:</strong> Hãy sử dụng nút "Lưu cài đặt" để lưu các thiết lập hiện tại vào trình duyệt. Nút "Load cài đặt" để khôi phục từ trình duyệt.</p>
+                                <p>Nút "Tải file cài đặt" để tải file cài đặt JSON về máy, "Nhập file cài đặt" để tải lên file cài đặt.</p>
+                                <p>Ứng dụng này sử dụng AI từ Google Gemini, vui lòng <a href="https://makersuite.google.com/app/apikey" target="_blank">đăng ký tài khoản</a> để nhận API key.</p>
+                                <p>Sử dụng mô hình Gemini Flash Thinking để dịch với chất lượng tốt nhất hiện có.</p>
+                                <p>Bản dịch sẽ được tự động trau chuốt lại một lần nữa để văn phong ổn hơn, đồng thời vẫn giữ nguyên chính xác các xưng hô.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section api-key-section">
+                            <h3><i class="fas fa-key"></i> API Key (Google Gemini)</h3>
+                            <p class="api-key-intro">Để sử dụng ứng dụng, bạn cần nhập API key từ <a href="https://makersuite.google.com/app/apikey" target="_blank">Google Gemini</a></p>
+                            <div class="api-key-container">
+                                <input type="password" id="api-key" class="full-width" placeholder="Nhập API key của Google Gemini (AIzaSyC...)">
+                                <button type="button" id="toggle-api-key" class="toggle-btn"><i class="fas fa-eye"></i></button>
+                            </div>
+                            <p class="api-key-notice">API key sẽ được lưu trong file cài đặt JSON của bạn và không được chia sẻ.</p>
+                        </div>
+                        
+                        <div class="settings-section">
+                            <h3><i class="fas fa-users"></i> Danh sách nhân vật</h3>
+                            <div id="characters-container">
+                                <!-- Character entries will be added here -->
+                            </div>
+                            <button id="add-character" class="btn btn-add">
+                                <i class="fas fa-plus"></i> Thêm nhân vật
+                            </button>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3><i class="fas fa-network-wired"></i> Mối quan hệ nhân vật</h3>
+                            <div id="relationships-container">
+                                <!-- Relationship entries will be added here -->
+                            </div>
+                            <button id="add-relationship" class="btn btn-add">
+                                <i class="fas fa-plus"></i> Thêm mối quan hệ
+                            </button>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3><i class="fas fa-comment-dots"></i> Xưng hô giữa các nhân vật</h3>
+                            <div id="pronouns-container">
+                                <!-- Pronoun entries will be added here -->
+                            </div>
+                            <button id="add-pronoun" class="btn btn-add">
+                                <i class="fas fa-plus"></i> Thêm xưng hô
+                            </button>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3><i class="fas fa-book"></i> Thể loại</h3>
+                            <input type="text" id="genre" class="full-width" placeholder="Ví dụ: truyện tranh, tiểu thuyết, v.v.">
+                        </div>
+
+                        <div class="settings-section">
+                            <h3><i class="fas fa-pen-fancy"></i> Văn phong</h3>
+                            <input type="text" id="style" class="full-width" placeholder="Ví dụ: trang trọng, bi đát, hài hước, v.v.">
+                        </div>
+
+                        <div class="settings-section">
+                            <h3><i class="fas fa-clipboard-list"></i> Yêu cầu</h3>
+                            <textarea id="requirements">dịch phải đúng xưng hô, trau chuốt thật kỹ, văn phong phải hay, tránh lỗi lặp từ</textarea>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3><i class="fas fa-smile"></i> Danh sách biểu hiện/dạng thoại</h3>
+                            <div id="expressions-container">
+                                <!-- Expression entries will be added here -->
+                            </div>
+                            <button id="add-expression" class="btn btn-add">
+                                <i class="fas fa-plus"></i> Thêm biểu hiện
+                            </button>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3><i class="fas fa-globe-asia"></i> Bối cảnh</h3>
+                            <textarea id="context" placeholder="Nhập bối cảnh câu chuyện..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="translation-panel">
+                        <h2><i class="fas fa-language"></i> Dịch văn bản</h2>
+                        
+                        <div class="input-section">
+                            <h3><i class="fas fa-file-alt"></i> Văn bản gốc</h3>
+                            <div class="file-upload-container">
+                                <input type="file" id="text-file-input" accept=".txt">
+                                <label for="text-file-input" class="file-upload-btn">
+                                    <i class="fas fa-cloud-upload-alt"></i> Tải lên tệp văn bản
+                                </label>
+                            </div>
+                            <div class="table-container">
+                                <table id="text-table" class="text-table">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Nhân vật</th>
+                                            <th>Biểu hiện/dạng thoại</th>
+                                            <th>Văn bản gốc</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="text-table-body">
+                                        <!-- Các dòng sẽ được tạo động -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <textarea id="source-text" placeholder="Nhập văn bản gốc cần dịch..." style="display: none;"></textarea>
+                        </div>
+                        
+                        <div class="controls">
+                            <button id="translate-btn" class="btn btn-primary">
+                                <i class="fas fa-exchange-alt"></i> Dịch văn bản
+                            </button>
+                            <div class="loader" id="loading-indicator" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i> Đang xử lý...
+                            </div>
+                        </div>
+                        
+                        <div class="output-section">
+                            <h3><i class="fas fa-check-circle"></i> Kết quả dịch</h3>
+                            <div id="translation-result" class="result-box"></div>
+                            <div class="controls" id="refine-again-controls" style="display: none;">
+                                <button id="refine-again-btn" class="btn btn-secondary">
+                                    <i class="fas fa-magic"></i> Trau chuốt lần nữa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <section class="faq-section">
+                <div class="container">
+                    <h2><i class="fas fa-question-circle"></i> Câu hỏi thường gặp</h2>
+                    <div class="faq-grid">
+                        <div class="faq-item">
+                            <h3>Công cụ này hoạt động như thế nào?</h3>
+                            <p>Công cụ sử dụng AI tiên tiến từ Google Gemini để dịch văn bản. Quá trình dịch diễn ra qua 2 bước: dịch ban đầu và trau chuốt, đảm bảo kết quả có văn phong tự nhiên và giữ nguyên xưng hô.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>Làm thế nào để đảm bảo xưng hô chính xác?</h3>
+                            <p>Bạn cần thiết lập danh sách nhân vật và định nghĩa xưng hô giữa các nhân vật trong phần cài đặt. Công cụ sẽ tự động áp dụng các quy tắc xưng hô trong quá trình dịch.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>Các cài đặt có được lưu lại không?</h3>
+                            <p>Có, bạn có thể lưu cài đặt vào trình duyệt hoặc xuất ra file JSON để sử dụng sau. Điều này giúp bạn không phải thiết lập lại khi mở trang web lần sau.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>Tôi cần API key từ đâu?</h3>
+                            <p>Bạn cần đăng ký tài khoản tại <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a> để nhận API key miễn phí. API key này cần thiết để kết nối với dịch vụ AI.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-column">
+                        <h3>Liên kết hữu ích</h3>
+                        <ul>
+                            <li><a href="https://makersuite.google.com" target="_blank"><i class="fas fa-robot"></i> Google Gemini API</a></li>
+                            <li><a href="huong-dan-su-dung.html"><i class="fas fa-book"></i> Hướng dẫn sử dụng</a></li>
+                            <li><a href="https://discord.gg/pf26Duy" target="_blank"><i class="fa-brands fa-discord"></i> Discord Động Mòe</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>© 2025 Công cụ dịch thuật Manga | Phát triển bởi Động Mòe</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Template cho các mục nhập -->
+    <template id="character-template">
+        <div class="entry-row character-entry">
+            <input type="text" class="character-name" placeholder="Tên nhân vật">
+            <button class="remove-btn"><i class="fas fa-trash-alt"></i></button>
+        </div>
+    </template>
+
+    <template id="relationship-template">
+        <div class="entry-row relationship-entry">
+            <input type="text" class="relationship-description" placeholder="Mô tả mối quan hệ">
+            <button class="remove-btn"><i class="fas fa-trash-alt"></i></button>
+        </div>
+    </template>
+
+    <template id="pronoun-template">
+        <div class="entry-row pronoun-entry">
+            <select class="pronoun-from"></select>
+            <span>gọi</span>
+            <select class="pronoun-to"></select>
+            <span>là</span>
+            <input type="text" class="pronoun-value" placeholder="xưng hô đối phương">
+            <span>và xưng bản thân là</span>
+            <input type="text" class="self-pronoun-value" placeholder="xưng hô bản thân">
+            <button class="remove-btn"><i class="fas fa-trash-alt"></i></button>
+        </div>
+    </template>
+
+    <template id="expression-template">
+        <div class="entry-row expression-entry">
+            <input type="text" class="expression-value" placeholder="Biểu hiện/dạng thoại (vd: vui vẻ, buồn bã, thì thầm...)">
+            <button class="remove-btn"><i class="fas fa-trash-alt"></i></button>
+        </div>
+    </template>
+    <script src="app.js" defer></script>
+</body>
+</html> 
