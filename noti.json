@@ -1,11 +1,5 @@
 [
   {
-    "id": "2024-07-01-update",
-    "message": "Báo lỗi tại <a href='https://www.facebook.com/pth1234/'>ĐÂY</a>.",
-    "type": "success",
-    "forceDisplay": true
-  },
-  {
     "id": "2024-07-30-maintenance",
     "message": "Hệ thống sẽ bảo trì vào ngày 30/7/2024 từ 22:00 - 23:00. Xin lỗi vì sự bất tiện này!",
     "type": "warning",
