@@ -20,7 +20,7 @@
 
 ## Hướng dẫn sử dụng
 
-1. **Puter AI**: Sử dụng Puter AI tích hợp sẵn - không cần API key.
+1. **Gemini AI**: Sử dụng Gemini.
 2. **Thiết lập nhân vật**: Thêm các nhân vật trong câu chuyện của bạn.
 3. **Thiết lập mối quan hệ**: Mô tả mối quan hệ giữa các nhân vật.
 4. **Thiết lập xưng hô**: Chọn cách các nhân vật gọi nhau và cách họ tự xưng.
