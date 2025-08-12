@@ -68,10 +68,9 @@ Người dùng có thể theo dõi tiến trình của từng bước thông qua
 
 ## Lưu ý
 
-- Puter AI được tích hợp sẵn và không cần cấu hình API key.
-- Ứng dụng sử dụng duy nhất mô hình AI là Puter AI (Gemini 2.5 Pro) để đảm bảo chất lượng dịch thuật cao.
+- Ứng dụng sử dụng duy nhất mô hình Gemini 2.5 Pro để đảm bảo chất lượng dịch thuật cao.
 - Hãy đảm bảo có kết nối internet ổn định khi sử dụng ứng dụng.
 
 ---
 
-© 2024 Ứng dụng Dịch Thuật AI 
+© 2025 Ứng dụng Dịch Thuật AI 
