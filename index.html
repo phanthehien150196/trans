@@ -21,36 +21,189 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <style>
-        /* Tùy chỉnh cho nav */
-        .main-nav {
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid #333;
+        /* Anime-style notification */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
         }
         
-        .main-nav::after {
-            content: "";
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes slideIn {
+            0% { transform: translateY(-50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        
+        .notification-banner {
+            background: rgba(64, 68, 237, 0.95);
+            background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            opacity: 1;
+            transition: all 0.4s ease;
+            visibility: visible;
+            overflow: hidden;
+            width: 100%;
+            clip-path: polygon(0 0, 100% 0, 98% 100%, 2% 100%);
+            border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        
+        .notification-banner .container {
+            padding: 0;
+        }
+        
+        .notification-banner:before {
+            content: '';
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             width: 100%;
-            height: 1px;
-            background: repeating-linear-gradient(90deg, #333, #333 5px, transparent 5px, transparent 10px);
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.5;
+            pointer-events: none;
         }
         
-        .nav-links li a {
+        .notification-banner.hide {
+            opacity: 0;
+            visibility: hidden;
+            display: none;
+            height: 0;
+            margin: 0;
+        }
+        
+        .notification-banner.error {
+            background-image: linear-gradient(to right, #ff416c 0%, #ff4b2b 100%);
+        }
+        
+        .notification-banner.warning {
+            background-image: linear-gradient(to right, #f7b733 0%, #fc4a1a 100%);
+        }
+        
+        .notification-banner.success {
+            background-image: linear-gradient(to right, #56ab2f 0%, #a8e063 100%);
+        }
+        
+        .notification-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.25);
+            flex-shrink: 0;
+            margin-right: 5px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        .notification-icon i {
+            font-size: 16px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 15px;
+            padding: 12px 40px 12px 15px;
             position: relative;
-            overflow: hidden;
+            max-width: 100%;
+            margin: 0;
+            font-weight: 600;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
         
-        .nav-links li a.active::after {
-            content: "";
+        #notification-message {
+            flex-grow: 1;
+            position: relative;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        #notification-message a {
+            color: #fff;
+            text-decoration: underline;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin: 0 2px;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+        
+        #notification-message a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .close-notification {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            cursor: pointer;
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #fff;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            opacity: 0.8;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+        }
+        
+        .close-notification:hover {
+            opacity: 1;
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) rotate(90deg);
+        }
+        
+        /* Animation dots for loading notification */
+        @keyframes dot-animation {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+        
+        .loading-dots span {
+            animation: dot-animation 1.5s infinite;
+            animation-fill-mode: both;
+        }
+        
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        /* Thêm hiệu ứng nổi bật khi hover vào thông báo */
+        .notification-banner.show:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Mở rộng phần hiển thị thông báo */
+        #notification-message {
+            flex-grow: 1;
         }
     </style>
 </head>
@@ -77,11 +230,29 @@
                 <div class="nav-container">
                     <ul class="nav-links">
                         <li><a href="index.html" class="active"><i class="fas fa-home"></i> Trang Chủ</a></li>
+                        <li><a href="dich-trang-truyen.html"><i class="fas fa-book-open"></i> Dịch trang truyện</a></li>
+                        <li><a href="phan-tich-truyen.html"><i class="fas fa-chart-bar"></i> Phân tích truyện</a></li>
                         <li><a href="huong-dan-su-dung.html"><i class="fas fa-book"></i> Hướng Dẫn</a></li>
+                        <li><a href="adobe-ban-quyen.html"><i class="fas fa-tags"></i> Adobe bản quyền chỉ 5k 1 ngày</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
+        
+        <!-- Phần thông báo hệ thống -->
+        <div class="notification-banner hide" id="notification-banner">
+            <div class="container">
+                <div class="notification-content">
+                    <div class="notification-icon">
+                        <i class="fas fa-info-circle" id="notification-icon"></i>
+                    </div>
+                    <span id="notification-message"></span>
+                    <button id="close-notification" class="close-notification" aria-label="Đóng thông báo">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
         
         <main class="site-main">
             <div class="container">
@@ -110,158 +281,174 @@
                     </div>
                 </div>
                 
-                <div class="app-container">
-                    <div class="settings-panel">
-                        <h2><i class="fas fa-cogs"></i> Cài đặt dịch thuật</h2>
-                        
-                        <div class="settings-controls">
-                            <button id="save-settings" class="btn btn-secondary">
-                                <i class="fas fa-save"></i> Lưu cài đặt
-                            </button>
-                            <button id="load-settings" class="btn btn-secondary">
-                                <i class="fas fa-folder-open"></i> Tải cài đặt
-                            </button>
-                            <button id="export-json" class="btn btn-secondary">
-                                <i class="fas fa-file-export"></i> Tải file cài đặt
-                            </button>
-                            <button id="import-json-btn" class="btn btn-secondary">
-                                <i class="fas fa-file-import"></i> Nhập file cài đặt
-                            </button>
-                            <input type="file" id="import-json" accept=".json" style="display: none;">
-                            <button id="reset-settings" class="btn btn-warning">
-                                <i class="fas fa-sync-alt"></i> Reset tất cả
-                            </button>
-                        </div>
-                        
-                        <div class="notice">
-                            <div class="notice-header">
-                                <i class="fas fa-info-circle"></i> Thông tin quan trọng
-                            </div>
-                            <div class="notice-content">
-                                <p><strong>Lưu ý:</strong> Hãy sử dụng nút "Lưu cài đặt" để lưu các thiết lập hiện tại vào trình duyệt. Nút "Load cài đặt" để khôi phục từ trình duyệt.</p>
-                                <p>Nút "Tải file cài đặt" để tải file cài đặt JSON về máy, "Nhập file cài đặt" để tải lên file cài đặt.</p>
-                                <p>Ứng dụng này sử dụng AI từ Google Gemini, vui lòng <a href="https://makersuite.google.com/app/apikey" target="_blank">đăng ký tài khoản</a> để nhận API key.</p>
-                                <p>Sử dụng mô hình Gemini Flash Thinking để dịch với chất lượng tốt nhất hiện có.</p>
-                                <p>Bản dịch sẽ được tự động trau chuốt lại một lần nữa để văn phong ổn hơn, đồng thời vẫn giữ nguyên chính xác các xưng hô.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="settings-section api-key-section">
-                            <h3><i class="fas fa-key"></i> API Key (Google Gemini)</h3>
-                            <p class="api-key-intro">Để sử dụng ứng dụng, bạn cần nhập API key từ <a href="https://makersuite.google.com/app/apikey" target="_blank">Google Gemini</a></p>
-                            <div class="api-key-container">
-                                <input type="password" id="api-key" class="full-width" placeholder="Nhập API key của Google Gemini (AIzaSyC...)">
-                                <button type="button" id="toggle-api-key" class="toggle-btn"><i class="fas fa-eye"></i></button>
-                            </div>
-                            <p class="api-key-notice">API key sẽ được lưu trong file cài đặt JSON của bạn và không được chia sẻ.</p>
-                        </div>
-                        
-                        <div class="settings-section">
-                            <h3><i class="fas fa-users"></i> Danh sách nhân vật</h3>
-                            <div id="characters-container">
-                                <!-- Character entries will be added here -->
-                            </div>
-                            <button id="add-character" class="btn btn-add">
-                                <i class="fas fa-plus"></i> Thêm nhân vật
-                            </button>
-                        </div>
-
-                        <div class="settings-section">
-                            <h3><i class="fas fa-network-wired"></i> Mối quan hệ nhân vật</h3>
-                            <div id="relationships-container">
-                                <!-- Relationship entries will be added here -->
-                            </div>
-                            <button id="add-relationship" class="btn btn-add">
-                                <i class="fas fa-plus"></i> Thêm mối quan hệ
-                            </button>
-                        </div>
-
-                        <div class="settings-section">
-                            <h3><i class="fas fa-comment-dots"></i> Xưng hô giữa các nhân vật</h3>
-                            <div id="pronouns-container">
-                                <!-- Pronoun entries will be added here -->
-                            </div>
-                            <button id="add-pronoun" class="btn btn-add">
-                                <i class="fas fa-plus"></i> Thêm xưng hô
-                            </button>
-                        </div>
-
-                        <div class="settings-section">
-                            <h3><i class="fas fa-book"></i> Thể loại</h3>
-                            <input type="text" id="genre" class="full-width" placeholder="Ví dụ: truyện tranh, tiểu thuyết, v.v.">
-                        </div>
-
-                        <div class="settings-section">
-                            <h3><i class="fas fa-pen-fancy"></i> Văn phong</h3>
-                            <input type="text" id="style" class="full-width" placeholder="Ví dụ: trang trọng, bi đát, hài hước, v.v.">
-                        </div>
-
-                        <div class="settings-section">
-                            <h3><i class="fas fa-clipboard-list"></i> Yêu cầu</h3>
-                            <textarea id="requirements">dịch phải đúng xưng hô, trau chuốt thật kỹ, văn phong phải hay, tránh lỗi lặp từ</textarea>
-                        </div>
-
-                        <div class="settings-section">
-                            <h3><i class="fas fa-smile"></i> Danh sách biểu hiện/dạng thoại</h3>
-                            <div id="expressions-container">
-                                <!-- Expression entries will be added here -->
-                            </div>
-                            <button id="add-expression" class="btn btn-add">
-                                <i class="fas fa-plus"></i> Thêm biểu hiện
-                            </button>
-                        </div>
-
-                        <div class="settings-section">
-                            <h3><i class="fas fa-globe-asia"></i> Bối cảnh</h3>
-                            <textarea id="context" placeholder="Nhập bối cảnh câu chuyện..."></textarea>
-                        </div>
-                    </div>
-
-                    <div class="translation-panel">
-                        <h2><i class="fas fa-language"></i> Dịch văn bản</h2>
-                        
-                        <div class="input-section">
-                            <h3><i class="fas fa-file-alt"></i> Văn bản gốc</h3>
-                            <div class="file-upload-container">
-                                <input type="file" id="text-file-input" accept=".txt">
-                                <label for="text-file-input" class="file-upload-btn">
-                                    <i class="fas fa-cloud-upload-alt"></i> Tải lên tệp văn bản
-                                </label>
-                            </div>
-                            <div class="table-container">
-                                <table id="text-table" class="text-table">
-                                    <thead>
-                                        <tr>
-                                            <th>STT</th>
-                                            <th>Nhân vật</th>
-                                            <th>Biểu hiện/dạng thoại</th>
-                                            <th>Văn bản gốc</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="text-table-body">
-                                        <!-- Các dòng sẽ được tạo động -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <textarea id="source-text" placeholder="Nhập văn bản gốc cần dịch..." style="display: none;"></textarea>
-                        </div>
-                        
-                        <div class="controls">
-                            <button id="translate-btn" class="btn btn-primary">
-                                <i class="fas fa-exchange-alt"></i> Dịch văn bản
-                            </button>
-                            <div class="loader" id="loading-indicator" style="display: none;">
-                                <i class="fas fa-spinner fa-spin"></i> Đang xử lý...
-                            </div>
-                        </div>
-                        
-                        <div class="output-section">
-                            <h3><i class="fas fa-check-circle"></i> Kết quả dịch</h3>
-                            <div id="translation-result" class="result-box"></div>
-                            <div class="controls" id="refine-again-controls" style="display: none;">
-                                <button id="refine-again-btn" class="btn btn-secondary">
-                                    <i class="fas fa-magic"></i> Trau chuốt lần nữa
+                <div class="container main-container">
+                    <div class="app-container">
+                        <div class="settings-panel">
+                            <h2><i class="fas fa-cogs"></i> Cài đặt dịch thuật</h2>
+                            
+                            <div class="settings-controls">
+                                <button id="save-settings" class="btn btn-secondary">
+                                    <i class="fas fa-save"></i> Lưu cài đặt
                                 </button>
+                                <button id="load-settings" class="btn btn-secondary">
+                                    <i class="fas fa-folder-open"></i> Load cài đặt
+                                </button>
+                                <button id="export-json" class="btn btn-secondary">
+                                    <i class="fas fa-file-export"></i> Tải file cài đặt
+                                </button>
+                                <button id="import-json-btn" class="btn btn-secondary">
+                                    <i class="fas fa-file-import"></i> Nhập file cài đặt
+                                </button>
+                                <input type="file" id="import-json" accept=".json" style="display: none;">
+                                <button id="reset-settings" class="btn btn-warning">
+                                    <i class="fas fa-sync-alt"></i> Reset tất cả
+                                </button>
+                            </div>
+                            
+                            <div class="notice">
+                                <div class="notice-header">
+                                    <i class="fas fa-info-circle"></i> Thông tin quan trọng
+                                </div>
+                                <div class="notice-content">
+                                    <p><strong>Lưu ý:</strong> Hãy sử dụng nút "Lưu cài đặt" để lưu các thiết lập hiện tại vào trình duyệt. Nút "Load cài đặt" để khôi phục từ trình duyệt.</p>
+                                    <p>Nút "Tải file cài đặt" để tải file cài đặt JSON về máy, "Nhập file cài đặt" để tải lên file cài đặt.</p>
+                                                                    <p>Công cụ sử dụng Google AI Studio (Gemini 2.5 Pro) để dịch văn bản chất lượng cao:</p>
+                                <ul>
+                                    <li><strong>Google AI Studio:</strong> Giới hạn 1 lần gọi mỗi phút và 25 lần mỗi ngày, nhưng miễn phí.</li>
+                                </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-section api-key-section" id="google-section">
+                                <h3><i class="fas fa-key"></i> API Key (Google AI Studio)</h3>
+                                <p class="api-key-intro">
+                                    Để sử dụng ứng dụng với Google AI Studio, bạn cần nhập API key từ <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>
+                                </p>
+                                <div class="api-key-container">
+                                    <input type="password" id="google-api-key" class="full-width" placeholder="Nhập API key của Google...">
+                                    <button type="button" id="toggle-google-api-key" class="toggle-btn"><i class="fas fa-eye"></i></button>
+                                </div>
+                                <p class="api-key-notice api-limit-notice"><strong>Lưu ý:</strong> Google AI Studio có giới hạn 1 lần gọi/phút và 25 lần gọi/ngày.</p>
+                            </div>
+                            
+                            <div class="settings-section">
+                                <h3><i class="fas fa-users"></i> Danh sách nhân vật</h3>
+                                <div id="characters-container">
+                                    <!-- Character entries will be added here -->
+                                </div>
+                                <button id="add-character" class="btn btn-add">
+                                    <i class="fas fa-plus"></i> Thêm nhân vật
+                                </button>
+                            </div>
+
+                            <div class="settings-section">
+                                <h3><i class="fas fa-network-wired"></i> Mối quan hệ nhân vật</h3>
+                                <div id="relationships-container">
+                                    <!-- Relationship entries will be added here -->
+                                </div>
+                                <button id="add-relationship" class="btn btn-add">
+                                    <i class="fas fa-plus"></i> Thêm mối quan hệ
+                                </button>
+                            </div>
+
+                            <div class="settings-section">
+                                <h3><i class="fas fa-comment-dots"></i> Xưng hô giữa các nhân vật</h3>
+                                <div id="pronouns-container">
+                                    <!-- Pronoun entries will be added here -->
+                                </div>
+                                <button id="add-pronoun" class="btn btn-add">
+                                    <i class="fas fa-plus"></i> Thêm xưng hô
+                                </button>
+                            </div>
+
+                            <div class="settings-section">
+                                <h3><i class="fas fa-book"></i> Thể loại</h3>
+                                <input type="text" id="genre" class="full-width" placeholder="Ví dụ: truyện tranh, tiểu thuyết, v.v.">
+                            </div>
+
+                            <div class="settings-section">
+                                <h3><i class="fas fa-pen-fancy"></i> Văn phong</h3>
+                                <input type="text" id="style" class="full-width" placeholder="Ví dụ: trang trọng, bi đát, hài hước, v.v.">
+                            </div>
+
+                            <div class="settings-section">
+                                <h3><i class="fas fa-clipboard-list"></i> Yêu cầu</h3>
+                                <textarea id="requirements">dịch phải đúng xưng hô, trau chuốt thật kỹ, văn phong phải hay, truyền tải được cảm xúc nhân vật, tránh lỗi lặp từ</textarea>
+                            </div>
+
+                            <div class="settings-section">
+                                <h3><i class="fas fa-smile"></i> Danh sách biểu hiện/dạng thoại</h3>
+                                <div id="expressions-container">
+                                    <!-- Expression entries will be added here -->
+                                </div>
+                                <button id="add-expression" class="btn btn-add">
+                                    <i class="fas fa-plus"></i> Thêm biểu hiện
+                                </button>
+                            </div>
+
+                            <div class="settings-section">
+                                <h3><i class="fas fa-globe-asia"></i> Bối cảnh</h3>
+                                <textarea id="context" placeholder="Nhập bối cảnh câu chuyện..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="translation-panel">
+                            <h2><i class="fas fa-language"></i> Dịch văn bản</h2>
+                            
+                            <div class="input-section">
+                                <h3><i class="fas fa-file-alt"></i> Văn bản gốc</h3>
+                                <div class="file-upload-container">
+                                    <input type="file" id="text-file-input" accept=".txt">
+                                    <label for="text-file-input" class="file-upload-btn">
+                                        <i class="fas fa-cloud-upload-alt"></i> Tải lên tệp văn bản
+                                    </label>
+                                </div>
+                                <div class="table-container wide-table">
+                                    <table id="text-table" class="text-table">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Nhân vật</th>
+                                                <th>Đang nói với ai</th>
+                                                <th>Biểu hiện/dạng thoại</th>
+                                                <th>Văn bản gốc</th>
+                                                <th>Bản dịch</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="text-table-body">
+                                            <!-- Các dòng sẽ được tạo động -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <textarea id="source-text" placeholder="Nhập văn bản gốc cần dịch..." style="display: none;"></textarea>
+                            </div>
+                            
+                            <div class="api-info-section">
+                                <p id="api-info-text" class="api-info-text">Bạn đang sử dụng API Google AI Studio, model Gemini Pro 2.5.</p>
+                            </div>
+                            
+                            <div class="controls">
+                                <button id="translate-btn" class="btn btn-primary">
+                                    <i class="fas fa-exchange-alt"></i> Dịch văn bản
+                                </button>
+                                <div class="loader" id="loading-indicator" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i> Đang xử lý...
+                                </div>
+                            </div>
+                            
+                            <div class="output-section">
+                                <h3><i class="fas fa-check-circle"></i> Kết quả dịch</h3>
+                                <div id="translation-result" class="result-box"></div>
+                                <div class="controls" id="refine-again-controls" style="display: none;">
+                                    <button id="refine-again-btn" class="btn btn-secondary">
+                                        <i class="fas fa-magic"></i> Trau chuốt lần nữa
+                                    </button>
+                                </div>
+                                <div class="controls" id="export-with-character-controls" style="display: none;">
+                                    <button id="export-with-character-btn" class="btn btn-secondary">
+                                        <i class="fas fa-file-export"></i> Xuất kết quả kèm tên nhân vật
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -274,7 +461,7 @@
                     <div class="faq-grid">
                         <div class="faq-item">
                             <h3>Công cụ này hoạt động như thế nào?</h3>
-                            <p>Công cụ sử dụng AI tiên tiến từ Google Gemini để dịch văn bản. Quá trình dịch diễn ra qua 2 bước: dịch ban đầu và trau chuốt, đảm bảo kết quả có văn phong tự nhiên và giữ nguyên xưng hô.</p>
+                            <p>Công cụ sử dụng AI Google Gemini 2.5 Pro để dịch văn bản. Quá trình dịch diễn ra qua 2 bước: dịch ban đầu và trau chuốt, đảm bảo kết quả có văn phong tự nhiên và giữ nguyên xưng hô.</p>
                         </div>
                         <div class="faq-item">
                             <h3>Làm thế nào để đảm bảo xưng hô chính xác?</h3>
@@ -286,7 +473,11 @@
                         </div>
                         <div class="faq-item">
                             <h3>Tôi cần API key từ đâu?</h3>
-                            <p>Bạn cần đăng ký tài khoản tại <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a> để nhận API key miễn phí. API key này cần thiết để kết nối với dịch vụ AI.</p>
+                            <p>Bạn cần lấy API key từ <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a>. API key của Google có giới hạn 1 lần gọi mỗi phút và 25 lần mỗi ngày nhưng hoàn toàn miễn phí.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3>Có giới hạn nào khi sử dụng Google AI Studio?</h3>
+                            <p>Google AI Studio có giới hạn 1 lần gọi mỗi phút và 25 lần gọi mỗi ngày. Điều này phù hợp cho việc dịch một số lượng vừa phải văn bản. Nếu gặp giới hạn, bạn có thể chờ một chút hoặc tiếp tục vào ngày hôm sau.</p>
                         </div>
                     </div>
                 </div>
@@ -299,9 +490,10 @@
                     <div class="footer-column">
                         <h3>Liên kết hữu ích</h3>
                         <ul>
-                            <li><a href="https://makersuite.google.com" target="_blank"><i class="fas fa-robot"></i> Google Gemini API</a></li>
+                            <li><a href="https://aistudio.google.com/apikey" target="_blank"><i class="fas fa-key"></i> Google AI Studio API</a></li>
                             <li><a href="huong-dan-su-dung.html"><i class="fas fa-book"></i> Hướng dẫn sử dụng</a></li>
                             <li><a href="https://discord.gg/pf26Duy" target="_blank"><i class="fa-brands fa-discord"></i> Discord Động Mòe</a></li>
+                            <li><a href="javascript:void(0);" onclick="clearNotificationCache()"><i class="fas fa-sync-alt"></i> Làm mới thông báo</a></li>
                         </ul>
                     </div>
                 </div>
@@ -346,6 +538,136 @@
             <button class="remove-btn"><i class="fas fa-trash-alt"></i></button>
         </div>
     </template>
+    <!-- <script
+        disable-devtool-auto
+        src='https://cdn.jsdelivr.net/npm/disable-devtool'
+        disable-menu='false'
+    ></script> -->
     <script src="app.js" defer></script>
+    <script src="mobile-touch.js" defer></script>
+    <script src="index.js" defer></script>
+    <script src="analytics.js" defer></script>
+    <script>
+        // Khởi động tính năng cải thiện bảng trên điện thoại khi trang tải xong
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kiểm tra xem có hàm enhanceMobileTableExperience không
+            if (typeof enhanceMobileTableExperience === 'function') {
+                enhanceMobileTableExperience();
+                
+                // Chạy lại khi thay đổi kích thước màn hình
+                window.addEventListener('resize', function() {
+                    enhanceMobileTableExperience();
+                });
+                
+                // Chạy lại khi thêm dòng mới vào bảng
+                const observer = new MutationObserver(function(mutations) {
+                    mutations.forEach(function(mutation) {
+                        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                            enhanceMobileTableExperience();
+                        }
+                    });
+                });
+                
+                // Theo dõi thay đổi trong bảng
+                const tableContainer = document.querySelector('.table-container');
+                if (tableContainer) {
+                    observer.observe(tableContainer, { childList: true, subtree: true });
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notificationBanner = document.getElementById('notification-banner');
+            const notificationMessage = document.getElementById('notification-message');
+            const notificationIcon = document.getElementById('notification-icon');
+            const closeNotificationButton = document.getElementById('close-notification');
+            
+            // Hàm lấy thông báo từ server
+            function fetchNotifications() {
+                // Thêm timestamp để tránh cache
+                const timestamp = new Date().getTime();
+                fetch(`https://raw.githubusercontent.com/phanthehien150196/trans/refs/heads/main/noti.json?_=${timestamp}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && data.length > 0) {
+                            // Lấy thông báo mới nhất
+                            const latestNotification = data[0];
+                            
+                            // Kiểm tra xem thông báo đã bị đóng chưa, nếu forceDisplay=true thì hiển thị dù đã đóng
+                            const dismissedNotifications = JSON.parse(localStorage.getItem('dismissedNotifications') || '[]');
+                            if (!dismissedNotifications.includes(latestNotification.id) || latestNotification.forceDisplay === true) {
+                                showNotification(latestNotification.message, latestNotification.type);
+                                
+                                // Lưu ID thông báo hiện tại để kiểm tra khi đóng
+                                notificationBanner.dataset.notificationId = latestNotification.id;
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Lỗi khi lấy thông báo:', error));
+            }
+            
+            // Hàm hiển thị thông báo
+            function showNotification(message, type = 'info') {
+                // Sử dụng innerHTML thay vì textContent để hiển thị HTML
+                notificationMessage.innerHTML = message;
+                
+                // Thay đổi icon và màu nền dựa vào loại thông báo
+                notificationBanner.className = 'notification-banner';
+                notificationBanner.classList.remove('hide');
+                notificationIcon.className = 'fas';
+                
+                switch (type) {
+                    case 'success':
+                    case 's':
+                    case 't': // Hỗ trợ type "t" cho tương thích ngược
+                        notificationBanner.classList.add('success');
+                        notificationIcon.classList.add('fa-check-circle');
+                        break;
+                    case 'warning':
+                    case 'w':
+                        notificationBanner.classList.add('warning');
+                        notificationIcon.classList.add('fa-exclamation-triangle');
+                        break;
+                    case 'error':
+                    case 'e':
+                        notificationBanner.classList.add('error');
+                        notificationIcon.classList.add('fa-times-circle');
+                        break;
+                    default:
+                        notificationIcon.classList.add('fa-info-circle');
+                }
+            }
+            
+            // Hàm đóng thông báo
+            function closeNotification() {
+                notificationBanner.classList.add('hide');
+                
+                // Lưu ID thông báo đã đóng vào localStorage
+                const notificationId = notificationBanner.dataset.notificationId;
+                if (notificationId) {
+                    const dismissedNotifications = JSON.parse(localStorage.getItem('dismissedNotifications') || '[]');
+                    if (!dismissedNotifications.includes(notificationId)) {
+                        dismissedNotifications.push(notificationId);
+                        localStorage.setItem('dismissedNotifications', JSON.stringify(dismissedNotifications));
+                    }
+                }
+            }
+            
+            // Thêm nút xóa cache thông báo
+            window.clearNotificationCache = function() {
+                localStorage.removeItem('dismissedNotifications');
+                alert('Đã xóa cache thông báo. Hãy tải lại trang để hiển thị các thông báo mới nhất.');
+            };
+            
+            // Thêm listener cho nút đóng thông báo
+            if (closeNotificationButton) {
+                closeNotificationButton.addEventListener('click', closeNotification);
+            }
+            
+            // Lấy thông báo khi trang tải xong
+            fetchNotifications();
+        });
+    </script>
 </body>
 </html> 

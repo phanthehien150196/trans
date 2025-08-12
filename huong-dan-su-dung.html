@@ -54,37 +54,6 @@
             background: repeating-linear-gradient(90deg, #fff, #fff 10px, transparent 10px, transparent 20px);
         }
         
-        .main-nav {
-            position: relative;
-            overflow: hidden;
-            border-bottom: 1px solid #333;
-        }
-        
-        .main-nav::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: repeating-linear-gradient(90deg, #333, #333 5px, transparent 5px, transparent 10px);
-        }
-        
-        .nav-links li a {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .nav-links li a.active::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #fff;
-        }
-        
         /* Style phong cách manga */
         .hero {
             border-bottom: 2px solid #fff;
@@ -145,13 +114,6 @@
         .example, .note, .tip, .warning {
             border: 1px solid #000;
         }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
     </style>
 </head>
 <body>
@@ -177,7 +139,10 @@
                 <div class="nav-container">
                     <ul class="nav-links">
                         <li><a href="index.html"><i class="fas fa-home"></i> Trang Chủ</a></li>
+                        <li><a href="dich-trang-truyen.html"><i class="fas fa-book-open"></i> Dịch trang truyện</a></li>
+                        <li><a href="phan-tich-truyen.html"><i class="fas fa-chart-bar"></i> Phân tích truyện</a></li>
                         <li><a href="huong-dan-su-dung.html" class="active"><i class="fas fa-book"></i> Hướng Dẫn</a></li>
+                        <li><a href="adobe-ban-quyen.html"><i class="fas fa-tags"></i> Adobe bản quyền chỉ 5k 1 ngày</a></li>
                     </ul>
                 </div>
             </div>
@@ -200,8 +165,12 @@
                         <li><a href="#tai-len">10. Tải lên văn bản</a></li>
                         <li><a href="#dich-thuat">11. Quy trình dịch thuật</a></li>
                         <li><a href="#tinh-chinh">12. Tinh chỉnh kết quả</a></li>
-                        <li><a href="#luu-y">13. Lưu ý quan trọng</a></li>
-                        <li><a href="#meo">14. Mẹo nâng cao</a></li>
+                        <li><a href="#dich-lai-theo-cau">13. Dịch lại theo câu</a></li>
+                        <li><a href="#dich-trang-truyen">14. Dịch trang truyện</a></li>
+                        <li><a href="#tinh-nang-nang-cao-trang-truyen">15. Tính năng nâng cao dịch trang truyện</a></li>
+                        <li><a href="#phan-tich-truyen">16. Phân tích chương truyện</a></li>
+                        <li><a href="#luu-y">17. Lưu ý quan trọng</a></li>
+                        <li><a href="#meo">18. Mẹo nâng cao</a></li>
                     </ul>
                 </div>
 
@@ -213,43 +182,31 @@
                         <li>Giữ nguyên mối quan hệ giữa các nhân vật</li>
                         <li>Tinh chỉnh văn phong phù hợp với thể loại</li>
                         <li>Quy trình dịch 2 lần để nâng cao chất lượng</li>
+                        <li>Sử dụng API Google AI Studio (Gemini 2.5 Pro)</li>
+                        <li>Dịch lại từng câu riêng lẻ</li>
+                        <li>Dịch trang truyện đa ảnh (tối đa 30 ảnh)</li>
                     </ul>
-                    
                     <div class="note">
-                        <p><strong>Lưu ý:</strong> Công cụ này sử dụng API từ Google Gemini để kết nối với các mô hình AI, bạn cần có API key để sử dụng.</p>
+                        <p><strong>Lưu ý:</strong> Công cụ này chỉ sử dụng API từ Google AI Studio. Bạn cần có API key từ Google để sử dụng.</p>
                     </div>
                 </section>
 
                 <section id="cai-dat" class="step-guide">
                     <h3><i class="fas fa-key"></i> 2. Cài Đặt Ban Đầu</h3>
-                    <p>Để bắt đầu sử dụng công cụ, bạn cần thực hiện các bước cài đặt sau:</p>
-                    
+                    <p>Để bắt đầu sử dụng công cụ, bạn cần lấy API key từ Google AI Studio.</p>
                     <div class="step-box">
                         <div class="step-number">1</div>
                         <div class="step-content">
-                            <h4>Đăng ký tài khoản Google</h4>
-                            <p>Truy cập <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a> và đăng nhập bằng tài khoản Google của bạn.</p>
+                            <h4>Lấy API key Google AI Studio</h4>
+                            <ol>
+                                <li>Truy cập <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a> và đăng nhập vào tài khoản Google của bạn.</li>
+                                <li>Tạo API key mới và lưu lại.</li>
+                                <li>Dán API key vào ô "API Key (Google AI Studio)" trên website.</li>
+                            </ol>
                         </div>
                     </div>
-                    
-                    <div class="step-box">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h4>Lấy API key</h4>
-                            <p>Tạo API key mới trong trang <a href="https://makersuite.google.com/app/apikey" target="_blank">Google AI Studio</a>.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="step-box">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h4>Nhập API key vào website</h4>
-                            <p>Mở website, và dán API key vào ô tương ứng.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="tip">
-                        <p><strong>Mẹo:</strong> Hãy lưu lại API key ở một nơi an toàn để sử dụng lại sau này. Bạn có thể lưu cài đặt bằng nút "Lưu cài đặt" trên trang chủ.</p>
+                    <div class="note">
+                        <p><strong>Lưu ý:</strong> Google AI Studio có giới hạn 1 lần gọi/phút và 25 lần/ngày.</p>
                     </div>
                 </section>
 
@@ -570,7 +527,6 @@
                             <h4>Kiểm tra thông tin</h4>
                             <p>Đảm bảo tất cả các thông tin được nhập chính xác, đặc biệt là:</p>
                             <ul>
-                                <li>API key</li>
                                 <li>Thông tin nhân vật</li>
                                 <li>Mối quan hệ và cách xưng hô</li>
                                 <li>Thiết lập biểu hiện cho từng dòng văn bản</li>
@@ -589,7 +545,7 @@
                     </div>
 
                     <div class="note">
-                        <p><strong>Lưu ý:</strong> Quá trình dịch có thể mất thời gian tùy thuộc vào độ dài văn bản và tình trạng API.</p>
+                        <p><strong>Lưu ý:</strong> Quá trình dịch có thể mất thời gian tùy thuộc vào độ dài văn bản.</p>
                     </div>
                 </section>
 
@@ -622,8 +578,189 @@
                     </div>
                 </section>
 
+                <section id="dich-lai-theo-cau" class="step-guide">
+                    <h3><i class="fas fa-redo-alt"></i> 13. Dịch Lại Theo Câu</h3>
+                    <p>Tính năng này cho phép bạn dịch lại từng câu riêng lẻ mà không cần dịch lại toàn bộ văn bản, giúp tinh chỉnh chính xác những phần không hài lòng.</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Sử dụng nút dịch lại</h4>
+                            <p>Sau khi dịch xong văn bản, mỗi hàng trong bảng kết quả sẽ có nút <strong>"Dịch lại"</strong> bên cạnh.</p>
+                            <p>Nhấp vào nút này để dịch lại riêng câu đó với cùng cài đặt nhân vật và ngữ cảnh.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Tự động cập nhật</h4>
+                            <p>Khi dịch lại hoàn thành, kết quả sẽ tự động thay thế kết quả cũ trong bảng.</p>
+                            <p>Khung tổng hợp bản dịch cuối cùng cũng được cập nhật ngay lập tức.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>Mẹo:</strong> Sử dụng tính năng này để tinh chỉnh những câu dịch chưa tự nhiên hoặc không phù hợp với ngữ cảnh cụ thể.</p>
+                    </div>
+                </section>
+
+                <section id="dich-trang-truyen" class="step-guide">
+                    <h3><i class="fas fa-book-open"></i> 14. Dịch Trang Truyện</h3>
+                    <p>Công cụ cung cấp chức năng dịch trang truyện trực tiếp từ ảnh, tự động quét OCR và dịch nội dung với sự hỗ trợ của AI.</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Tải lên ảnh trang truyện</h4>
+                            <p>Truy cập tab "Dịch trang truyện" từ thanh điều hướng. Nhấp vào nút "Tải lên ảnh trang truyện" để chọn tệp ảnh từ máy tính của bạn.</p>
+                            <p>Hệ thống hỗ trợ các định dạng ảnh phổ biến như JPG, PNG, WEBP.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Chọn loại truyện</h4>
+                            <p>Chọn loại truyện tương ứng từ menu thả xuống: Manga (Nhật), Manhwa (Hàn), hoặc Manhua (Trung).</p>
+                            <p>Việc chọn đúng loại truyện sẽ giúp hệ thống tối ưu quy trình OCR và dịch thuật.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Quét OCR</h4>
+                            <p>Nhấp vào nút "QUÉT OCR" để hệ thống trích xuất văn bản từ ảnh trang truyện.</p>
+                            <p>Kết quả OCR sẽ hiển thị trong phần "VĂN BẢN OCR". Bạn có thể sửa nội dung này nếu OCR không chính xác.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Dịch văn bản</h4>
+                            <p>Sau khi có kết quả OCR, nhấp vào nút "DỊCH VĂN BẢN" để dịch sang tiếng Việt.</p>
+                            <p>Hệ thống sẽ sử dụng API Google AI Studio để dịch nội dung.</p>
+                            <p>Bản dịch sẽ xuất hiện trong phần "VĂN BẢN ĐÃ DỊCH".</p>
+                        </div>
+                    </div>
+
+                    <div class="warning">
+                        <p><strong>Lưu ý về xưng hô:</strong> Khi dịch trực tiếp từ trang truyện, AI không có thông tin về mối quan hệ giữa các nhân vật, vì vậy xưng hô có thể không chính xác. Để có kết quả tốt nhất, bạn nên sử dụng chức năng dịch văn bản ở trang chủ với đầy đủ thông tin về nhân vật và mối quan hệ.</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>Mẹo:</strong> Đối với ảnh có độ phức tạp cao hoặc nhiều text chồng chéo, bạn có thể cần chỉnh sửa kết quả OCR trước khi dịch để có kết quả tốt hơn.</p>
+                    </div>
+                </section>
+
+                <section id="tinh-nang-nang-cao-trang-truyen" class="step-guide">
+                    <h3><i class="fas fa-star"></i> 15. Tính Năng Nâng Cao Dịch Trang Truyện</h3>
+                    <p>Hệ thống đã được nâng cấp với nhiều tính năng tiện lợi để dịch truyện hiệu quả hơn:</p>
+                    
+                    <div class="step-box">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Upload nhiều ảnh cùng lúc</h4>
+                            <p>Có thể tải lên <strong>tối đa 30 ảnh</strong> cùng một lần thay vì từng ảnh một.</p>
+                            <p>Hệ thống tự động sắp xếp theo thứ tự tên file để đảm bảo thứ tự đúng.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Layout ngang tiện lợi</h4>
+                            <p>Mỗi ảnh được hiển thị theo format:</p>
+                            <ul>
+                                <li><strong>Bên trái:</strong> Ảnh manga hiển thị đầy đủ chiều dọc</li>
+                                <li><strong>Bên phải:</strong> 2 cột OCR và Bản dịch đặt dọc</li>
+                            </ul>
+                            <p>Thiết kế này giúp dễ dàng đối chiếu giữa ảnh gốc và kết quả dịch.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Nút OCR và Dịch riêng lẻ</h4>
+                            <p>Mỗi ảnh có 2 nút riêng:</p>
+                            <ul>
+                                <li><strong>Nút OCR:</strong> Chỉ quét text từ ảnh đó</li>
+                                <li><strong>Nút Dịch:</strong> Chỉ dịch ảnh đó (cần OCR trước)</li>
+                            </ul>
+                            <p>Cho phép xử lý chọn lọc thay vì bắt buộc xử lý tất cả.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Khung tổng hợp kết quả</h4>
+                            <p>Ở cuối trang có khung <strong>"TỔNG HỢP KẾT QUẢ"</strong> với:</p>
+                            <ul>
+                                <li>Cột <strong>"TẤT CẢ OCR":</strong> Tổng hợp text OCR từ tất cả ảnh</li>
+                                <li>Cột <strong>"TẤT CẢ BẢN DỊCH":</strong> Tổng hợp bản dịch từ tất cả ảnh</li>
+                                <li>Nút copy riêng cho từng cột</li>
+                            </ul>
+                            <p>Tự động cập nhật khi có kết quả từ bất kỳ ảnh nào.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step-box">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Xử lý batch thông minh</h4>
+                            <p>Ngoài nút riêng lẻ, vẫn có nút batch:</p>
+                            <ul>
+                                <li><strong>"QUÉT OCR TẤT CẢ":</strong> OCR tuần tự tất cả ảnh</li>
+                                <li><strong>"DỊCH TẤT CẢ":</strong> Dịch tuần tự tất cả ảnh có OCR</li>
+                            </ul>
+                            <p>Có delay 3 giây giữa các lần gọi API để tránh bị giới hạn.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="warning">
+                        <p><strong>Lưu ý ngôn ngữ:</strong> Chỉ quét text ngôn ngữ gốc của thể loại truyện được chọn (tiếng Nhật, Hàn, Trung). Không thể quét các ngôn ngữ dịch như tiếng Anh.</p>
+                    </div>
+                    
+                    <div class="tip">
+                        <p><strong>Workflow gợi ý:</strong> Upload tất cả ảnh → "OCR tất cả" → Kiểm tra kết quả → "Dịch tất cả" → Copy từ khung tổng hợp.</p>
+                    </div>
+                </section>
+
+                <section id="phan-tich-truyen" class="step-guide">
+                    <h3><i class="fas fa-chart-bar"></i> 16. Phân Tích Chương Truyện</h3>
+                    <p>Tính năng phân tích chương truyện giúp bạn tự động phân tích nội dung, nhân vật và bối cảnh từ file chương truyện dạng ZIP.</p>
+                    
+                    <h4><i class="fas fa-play"></i> Cách Sử Dụng:</h4>
+                    <ol>
+                        <li><strong>Chuẩn bị file:</strong> Đảm bảo bạn có file ZIP chứa các ảnh trang truyện (không được có thư mục và không được quá 40 ảnh)</li>
+                        <li><strong>Nhập API Key:</strong> Nhập Google AI Studio API key vào ô "API Key"</li>
+                        <li><strong>Chọn loại truyện:</strong> Chọn Manga, Manhwa, Manhua</li>
+                        <li><strong>Tải file:</strong> Nhấn "Chọn file ZIP" và chọn file chương truyện</li>
+                        <li><strong>Phân tích:</strong> Nhấn "Phân tích chương truyện" và đợi kết quả</li>
+                    </ol>
+
+                    <h4><i class="fas fa-info-circle"></i> Kết Quả Phân Tích:</h4>
+                    <ul>
+                        <li><strong>Nội dung:</strong> Tóm tắt cốt truyện và diễn biến chính của chương</li>
+                        <li><strong>Nhân vật:</strong> Danh sách nhân vật xuất hiện, vai trò và hành động của họ</li>
+                        <li><strong>Bối cảnh:</strong> Thông tin về địa điểm, thời gian và không khí của chương</li>
+                    </ul>
+
+                    <div class="note">
+                        <p><strong>Lưu ý:</strong> Tính năng này sử dụng Google AI Studio để phân tích hình ảnh. Đảm bảo bạn có API key hợp lệ và không vượt quá giới hạn sử dụng.</p>
+                    </div>
+
+                    <div class="tip">
+                        <p><strong>Mẹo:</strong> File ZIP nên có kích thước dưới 20MB và chứa ảnh có độ phân giải rõ ràng để kết quả phân tích chính xác hơn.</p>
+                    </div>
+                </section>
+
                 <section id="luu-y" class="step-guide">
-                    <h3><i class="fas fa-exclamation-triangle"></i> 13. Những Lưu Ý Quan Trọng</h3>
+                    <h3><i class="fas fa-exclamation-triangle"></i> 17. Những Lưu Ý Quan Trọng</h3>
                     <p>Một số điểm cần lưu ý khi sử dụng công cụ:</p>
                     
                     <div class="warning">
@@ -631,7 +768,11 @@
                     </div>
                     
                     <div class="warning">
-                        <p><strong>API giới hạn:</strong> Google Gemini API có thể có giới hạn về số lượng yêu cầu hoặc token. Hãy kiểm tra tài khoản của bạn nếu gặp lỗi.</p>
+                        <p><strong>Giới hạn API Google AI Studio:</strong> Google AI Studio có giới hạn 1 lần gọi API mỗi phút và 25 lần gọi mỗi ngày. Nếu bạn vượt quá giới hạn này, hãy đợi đến hôm sau.</p>
+                    </div>
+                    
+                    <div class="warning">
+                        <p><strong>Chuyển đổi API khi gặp lỗi:</strong> Nếu một API đang bị lỗi, quá tải hoặc hết hạn mức, hãy thử chuyển sang API khác. Nếu Google AI Studio gặp vấn đề, đợi đến hôm sau.</p>
                     </div>
                     
                     <div class="warning">
@@ -644,7 +785,7 @@
                 </section>
 
                 <section id="meo" class="step-guide">
-                    <h3><i class="fas fa-lightbulb"></i> 14. Mẹo và Thủ Thuật Nâng Cao</h3>
+                    <h3><i class="fas fa-lightbulb"></i> 18. Mẹo và Thủ Thuật Nâng Cao</h3>
                     <p>Một số mẹo để tối ưu kết quả dịch:</p>
                     
                     <div class="tip-grid">
@@ -693,8 +834,9 @@
                         <a href="#tai-len" class="btn btn-sm">10. Tải lên</a>
                         <a href="#dich-thuat" class="btn btn-sm">11. Dịch thuật</a>
                         <a href="#tinh-chinh" class="btn btn-sm">12. Tinh chỉnh</a>
-                        <a href="#luu-y" class="btn btn-sm">13. Lưu ý</a>
-                        <a href="#meo" class="btn btn-sm">14. Mẹo</a>
+                        <a href="#dich-trang-truyen" class="btn btn-sm">13. Dịch trang truyện</a>
+                        <a href="#luu-y" class="btn btn-sm">14. Lưu ý</a>
+                        <a href="#meo" class="btn btn-sm">15. Mẹo</a>
                     </div>
                 </div>
             </div>
@@ -706,7 +848,7 @@
                     <div class="footer-column">
                         <h3>Liên kết hữu ích</h3>
                         <ul>
-                            <li><a href="https://makersuite.google.com" target="_blank"><i class="fas fa-robot"></i> Google Gemini API</a></li>
+                            <li><a href="https://aistudio.google.com/apikey" target="_blank"><i class="fas fa-key"></i> Google AI Studio API</a></li>
                             <li><a href="index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
                             <li><a href="https://discord.gg/pf26Duy" target="_blank"><i class="fa-brands fa-discord"></i> Discord Động Mòe</a></li>
                         </ul>
@@ -718,5 +860,8 @@
             </div>
         </footer>
     </div>
+
+    <script src="mobile-touch.js" defer></script>
+    <script src="analytics.js" defer></script>
 </body>
 </html> 

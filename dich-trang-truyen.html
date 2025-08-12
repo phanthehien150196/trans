@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Công cụ dịch thuật manga - Dịch trang truyện manga, manhwa, manhua với OCR tự động và dịch văn bản với văn phong tự nhiên.">
+    <meta name="keywords" content="dịch thuật AI, truyện manga, dịch manga, OCR, Gemini Pro, dịch trang truyện, AI Việt Nam">
+    <meta name="author" content="Động Mòe">
+    <meta property="og:title" content="Dịch trang truyện - Công cụ dịch thuật Manga">
+    <meta property="og:description" content="Công cụ dịch trang truyện manga với OCR tự động và dịch văn bản bằng AI tiên tiến">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://trans.moetruyen.net/dich-trang-truyen.html">
+    <meta property="og:image" content="images/dich.jpg">
+    <title>Dịch trang truyện - Công cụ dịch thuật Manga</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/dich.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <style>
+        /* Thiết kế mới cho trang dịch truyện */
+        .main-container {
+            padding: 0 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .manga-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin: 20px auto;
+            background-color: #eeeeee;
+            padding: 22px;
+            border-radius: 10px;
+            min-height: 600px;
+            max-width: 1250px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            align-items: stretch;
+        }
+        
+        .panels-container {
+            display: flex;
+            gap: 25px;
+            width: 100%;
+        }
+
+        .manga-panel {
+            flex: 1;
+            border: 2px solid #000;
+            border-radius: 10px;
+            padding: 18px;
+            background-color: #ffffff;
+            box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+            height: 100%;
+        }
+
+        /* Panel API Key */
+        .api-key-panel {
+            min-height: auto !important;
+            margin-bottom: 15px !important;
+            padding: 15px 18px !important;
+            width: 100%;
+        }
+
+        /* Panel trái cho upload ảnh */
+        .manga-panel.upload-panel {
+            overflow-y: auto;
+            flex: 0.85;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Panel phải cho kết quả - giữ cố định */
+        .manga-panel.result-panel {
+            display: flex;
+            flex-direction: column;
+            flex: 1.15;
+            justify-content: flex-start;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+        }
+
+        .panel-header h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #222;
+        }
+
+        .image-preview {
+            width: 100%;
+            min-height: 280px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f7f7f7;
+            overflow: auto;
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 480px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .image-preview.loaded {
+            padding: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fafafa;
+        }
+
+        #preview-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            color: #888;
+            padding: 25px;
+        }
+
+        .manga-type-select {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0 8px 0;
+        }
+
+        .select-container {
+            position: relative;
+            flex: 1;
+        }
+
+        .manga-type-select h3 {
+            font-size: 1rem;
+            margin: 0;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .manga-type-select select {
+            width: 100%;
+            padding: 9px 12px;
+            border: 2px solid #333;
+            border-radius: 6px;
+            background-color: white;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .manga-type-select select:focus {
+            outline: none;
+            border-color: #333;
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+        }
+
+        .select-arrow {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #555;
+        }
+
+        .upload-btn {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .file-upload-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #333;
+            color: white;
+            padding: 11px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            width: 100%;
+            font-size: 0.95rem;
+        }
+
+        .file-upload-btn:hover {
+            background-color: #000;
+        }
+
+        .process-buttons {
+            display: flex;
+            gap: 8px;
+            margin: 0 0 15px;
+            width: 100%;
+        }
+
+        .process-btn {
+            flex: 1;
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .process-btn:hover {
+            background-color: #111;
+        }
+
+        .process-btn:disabled {
+            background-color: #999;
+            cursor: not-allowed;
+        }
+
+        .result-section {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            overflow-y: auto;
+            min-height: 350px;
+            scrollbar-width: thin;
+            scrollbar-color: #ccc transparent;
+        }
+
+        .result-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .result-section::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .result-section::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 4px;
+        }
+
+        .result-panel {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 2;
+            padding: 4px 0;
+        }
+
+        .result-header h3 {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .result-content {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 12px 14px;
+            background-color: #f9f9f9;
+            min-height: 100px;
+            max-height: 180px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: 'Consolas', monospace;
+            line-height: 1.6;
+            font-size: 15px;
+            scrollbar-width: thin;
+            scrollbar-color: #ddd transparent;
+        }
+
+        .result-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .result-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .result-content::-webkit-scrollbar-thumb {
+            background-color: #ddd;
+            border-radius: 3px;
+        }
+
+        #ocr-result {
+            font-size: 16px;
+        }
+
+        #translation-result {
+            margin-top: 0;
+            min-height: 150px;
+        }
+
+        .editable {
+            border: 1px solid #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .editable:focus {
+            outline: none;
+            border-color: #0056b3;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 6px;
+            margin-left: auto;
+        }
+
+        .copy-btn, .edit-btn, .save-btn, .cancel-btn {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover, .edit-btn:hover, .save-btn:hover, .cancel-btn:hover {
+            background-color: #eaeaea;
+        }
+
+        .edit-btn {
+            background-color: #e7f3ff;
+            border-color: #c2e0ff;
+        }
+
+        .save-btn {
+            background-color: #e2f7e8;
+            border-color: #c3e6cb;
+        }
+
+        .cancel-btn {
+            background-color: #fff2f3;
+            border-color: #f5c6cb;
+        }
+
+        .progress-container {
+            margin-top: 10px;
+            display: none;
+            padding: 0 5px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 4px;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #333;
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-status {
+            font-size: 0.75rem;
+            color: #777;
+            text-align: center;
+        }
+
+        .process-controls {
+            margin-top: auto;
+            background-color: white;
+            padding: 8px 0 0;
+            border-top: 1px solid #eee;
+            position: sticky;
+            bottom: 0;
+            z-index: 2;
+        }
+
+        .loading-indicator {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 0;
+            color: #444;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .loading-indicator i {
+            color: #444;
+        }
+
+        @media (max-width: 1100px) {
+            .panels-container {
+                flex-direction: column;
+            }
+            
+            .manga-panel {
+                min-height: 500px;
+                width: 100%;
+                height: auto;
+                margin-bottom: 20px;
+            }
+            
+            .api-key-panel.manga-panel {
+                min-height: auto;
+                padding: 15px;
+            }
+            
+            .manga-panel:last-child {
+                margin-bottom: 0;
+            }
+            
+            .manga-panel.result-panel,
+            .manga-panel.upload-panel {
+                flex: none;
+            }
+            
+            .image-preview {
+                min-height: 300px;
+                max-height: 400px;
+            }
+
+            .result-section {
+                min-height: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .manga-container {
+                padding: 10px;
+                max-width: 100%;
+                gap: 15px;
+            }
+            
+            .manga-panel {
+                padding: 15px;
+                min-height: 400px;
+            }
+            
+            .result-content {
+                min-height: 80px;
+            }
+            
+            .panel-header h2 {
+                font-size: 1.2rem;
+            }
+            
+            .process-btn {
+                padding: 8px 10px;
+                font-size: 0.9rem;
+            }
+            
+            .result-section {
+                min-height: 300px;
+            }
+        }
+
+        /* CSS cho phần API Key */        
+        .api-key-input-container {
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .api-key-description {
+            margin: 0 0 10px 0;
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+        .api-key-field {
+            display: flex;
+            gap: 5px;
+            align-items: stretch;
+            height: 42px;
+        }
+
+        .api-key-input {
+            flex: 1;
+            padding: 8px 10px;
+            border: 2px solid #333;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .api-key-input:focus {
+            outline: none;
+            border-color: #444;
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+        }
+
+        .api-key-button, .api-key-toggle {
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            white-space: nowrap;
+            height: 42px;
+            min-width: 60px;
+        }
+
+        .api-key-button:hover, .api-key-toggle:hover {
+            background-color: #000;
+        }
+
+        .api-key-help {
+            margin-top: 5px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .api-key-help a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .api-key-help a:hover {
+            text-decoration: underline;
+        }
+
+        /* CSS cho upload info */
+        .upload-info {
+            margin-top: 8px;
+            padding: 8px 0;
+            text-align: center;
+            color: #666;
+        }
+
+        /* CSS cho language notice */
+        .language-notice {
+            margin: 16px 0;
+            padding: 12px 16px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            color: #856404;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .language-notice i {
+            margin-right: 6px;
+            color: #f39c12;
+        }
+
+        .language-notice strong {
+            color: #d35400;
+        }
+
+        /* CSS cho main panel */
+        .main-panel {
+            width: 100%;
+        }
+
+        .upload-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        /* CSS cho manga results */
+        .manga-results {
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .manga-item {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: box-shadow 0.2s ease;
+        }
+
+        .manga-item:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        .manga-item.processing {
+            border-color: #007bff;
+        }
+
+        .manga-item.completed {
+            border-color: #28a745;
+        }
+
+        .manga-item.error {
+            border-color: #dc3545;
+        }
+
+        .manga-item-header {
+            background: #f8f9fa;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .manga-item-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .manga-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .single-ocr-btn, .single-translate-btn {
+            padding: 6px 12px;
+            border: 1px solid #007bff;
+            background: white;
+            color: #007bff;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .single-ocr-btn:hover {
+            background: #007bff;
+            color: white;
+        }
+
+        .single-translate-btn:hover {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+
+        .single-ocr-btn:disabled, .single-translate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #f8f9fa !important;
+            color: #6c757d !important;
+            border-color: #dee2e6 !important;
+        }
+
+        .manga-item-status {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-left: 8px;
+        }
+
+        .manga-item-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding: 16px;
+            align-items: start;
+        }
+
+        .manga-image-section {
+            text-align: center;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .manga-image-section img {
+            max-width: 100%;
+            max-height: 500px;
+            height: auto;
+            object-fit: contain;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f8f9fa;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+            cursor: crosshair;
+        }
+
+        .manga-image-section img:hover {
+            transform: scale(1.8);
+        }
+
+        .manga-text-section {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .text-column {
+            background: white;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .text-column-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .text-column-title {
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .text-column-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        .text-content {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 12px;
+            min-height: 120px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            max-height: 400px;
+            flex: 1;
+        }
+
+        .text-content.error {
+            color: #dc3545;
+            background: #fff5f5;
+            border-color: #f5c6cb;
+        }
+
+        .text-content.empty {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .manga-item-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #e9ecef;
+            overflow: hidden;
+        }
+
+        .manga-item-progress-fill {
+            height: 100%;
+            background: #007bff;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .manga-item.completed .manga-item-progress-fill {
+            background: #28a745;
+        }
+
+        .manga-item.error .manga-item-progress-fill {
+            background: #dc3545;
+        }
+
+        /* CSS cho batch progress */
+        .batch-progress {
+            margin: 12px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border: 1px solid #e9ecef;
+        }
+
+        .batch-status {
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .batch-progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .batch-progress-fill {
+            height: 100%;
+            background: #007bff;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        /* CSS cho summary section */
+        .summary-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fff;
+            border: 2px solid #007bff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0,123,255,0.15);
+        }
+
+        .summary-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .summary-header h3 {
+            color: #007bff;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .summary-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .summary-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .summary-column {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .summary-column-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 12px 16px;
+            font-weight: 600;
+        }
+
+        .summary-column-header h4 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .summary-text {
+            padding: 16px;
+            background: white;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            max-height: 500px;
+            min-height: 200px;
+            border: none;
+            color: #333;
+        }
+
+        .summary-text:empty::after {
+            content: "Chưa có kết quả...";
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        /* CSS cho summary note */
+        .summary-note {
+            margin-top: 20px;
+            padding: 16px 20px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            color: #856404;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .summary-note i {
+            margin-right: 8px;
+            color: #f39c12;
+        }
+
+        .summary-note strong {
+            color: #d35400;
+        }
+
+        /* Responsive cho tablet */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .manga-image-section img {
+                max-height: 400px;
+            }
+            
+            .manga-image-section img:hover {
+                transform: scale(1.6); /* Zoom nhẹ hơn cho tablet */
+            }
+            
+            .text-content {
+                max-height: 300px;
+                font-size: 13px;
+            }
+        }
+
+        /* Responsive cho mobile */
+        @media (max-width: 768px) {
+            .manga-item-content {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto;
+                gap: 16px;
+            }
+            
+            .manga-text-section {
+                grid-template-rows: auto auto;
+                gap: 12px;
+            }
+            
+            .manga-image-section img {
+                max-height: 300px;
+                cursor: default; /* Tắt crosshair cursor trên mobile */
+            }
+            
+            /* Tắt hiệu ứng zoom trên mobile */
+            .manga-image-section img:hover {
+                transform: none;
+            }
+            
+            .text-content {
+                font-size: 13px;
+                max-height: 200px;
+                min-height: 80px;
+            }
+            
+            .process-buttons {
+                flex-direction: column;
+            }
+            
+            .batch-progress {
+                margin: 8px 0;
+                padding: 8px;
+            }
+            
+            .manga-results {
+                max-height: 60vh;
+            }
+            
+            .manga-item-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            
+            .manga-item-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .single-ocr-btn, .single-translate-btn {
+                flex: 1;
+                justify-content: center;
+                max-width: 120px;
+            }
+            
+            .summary-content {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .summary-header {
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            
+            .summary-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .summary-text {
+                font-size: 13px;
+                max-height: 300px;
+                min-height: 150px;
+            }
+            
+            .language-notice {
+                margin: 12px 0;
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            
+            .summary-note {
+                margin-top: 16px;
+                padding: 12px 16px;
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="site-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <h1>Công cụ dịch thuật Manga</h1>
+                        <p class="tagline">Dịch truyện với xưng hô chính xác</p>
+                    </div>
+                    <div class="header-actions">
+                        <a href="https://discord.gg/pf26Duy" target="_blank" class="btn-outline">
+                            <i class="fab fa-discord"></i> Discord
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-container">
+                    <ul class="nav-links">
+                        <li><a href="index.html"><i class="fas fa-home"></i> Trang Chủ</a></li>
+                        <li><a href="dich-trang-truyen.html" class="active"><i class="fas fa-book-open"></i> Dịch trang truyện</a></li>
+                        <li><a href="phan-tich-truyen.html"><i class="fas fa-chart-bar"></i> Phân tích truyện</a></li>
+                        <li><a href="huong-dan-su-dung.html"><i class="fas fa-book"></i> Hướng Dẫn</a></li>
+                        <li><a href="adobe-ban-quyen.html"><i class="fas fa-tags"></i> Adobe bản quyền chỉ 5k 1 ngày</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <main class="site-main">
+            <div class="container main-container">
+                <div class="manga-container">
+                    <!-- API Key Panel ở trên cùng -->
+                    <div class="api-key-panel manga-panel">
+                        <div class="panel-header" style="margin-bottom: 10px;">
+                            <h2><i class="fas fa-key"></i> API KEY</h2>
+                        </div>
+                        
+                        <div class="api-key-input-container">
+                            <p class="api-key-description">Nhập Google AI Studio API key để sử dụng OCR và dịch văn bản:</p>
+                            <div class="api-key-field">
+                                <input type="password" id="google-api-key-input" placeholder="Nhập Google AI Studio API key" class="api-key-input">
+                                <button id="save-api-key-btn" class="api-key-button" style="min-width: 60px;">
+                                    <i class="fas fa-save"></i> LƯU
+                                </button>
+                                <button id="toggle-api-key-btn" class="api-key-toggle" style="min-width: 45px;">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="api-key-help">
+                                <small><i class="fas fa-info-circle"></i> Lấy key miễn phí tại <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a></small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Panel duy nhất -->
+                    <div class="manga-panel main-panel">
+                        <div class="panel-header">
+                            <h2><i class="fas fa-images"></i> DỊCH TRANG TRUYỆN</h2>
+                        </div>
+                        
+                        <div class="upload-section">
+                            <div class="upload-btn">
+                                <input type="file" id="manga-image-input" accept="image/*" multiple max="30" style="display: none;">
+                                <label for="manga-image-input" class="file-upload-btn">
+                                    <i class="fas fa-cloud-upload-alt"></i> Tải lên ảnh trang truyện (tối đa 30 ảnh)
+                                </label>
+                                <div class="upload-info">
+                                    <small><i class="fas fa-info-circle"></i> Có thể chọn nhiều ảnh cùng lúc, hệ thống sẽ xử lý tuần tự</small>
+                                </div>
+                            </div>
+
+                            <div class="manga-type-select">
+                                <h3>LOẠI TRUYỆN:</h3>
+                                <div class="select-container">
+                                    <select id="manga-type-select">
+                                        <option value="manga">Manga (Nhật)</option>
+                                        <option value="manhwa">Manhwa (Hàn)</option>
+                                        <option value="manhua">Manhua (Trung)</option>
+                                    </select>
+                                    <span class="select-arrow"><i class="fas fa-chevron-down"></i></span>
+                                </div>
+                            </div>
+                            
+                            <div class="language-notice">
+                                <i class="fas fa-info-circle"></i>
+                                <strong>Lưu ý:</strong> Chỉ quét text ngôn ngữ gốc của thể loại truyện được chọn (tiếng Nhật, Hàn, Trung). Không thể quét các ngôn ngữ dịch như tiếng Anh.
+                            </div>
+                            
+                            <div class="process-buttons">
+                                <button id="ocr-batch-btn" class="process-btn">
+                                    <i class="fas fa-eye"></i> QUÉT OCR TẤT CẢ
+                                </button>
+                                <button id="translate-batch-btn" class="process-btn">
+                                    <i class="fas fa-language"></i> DỊCH TẤT CẢ
+                                </button>
+                            </div>
+                            
+                            <div class="batch-progress" id="batch-progress" style="display: none;">
+                                <div class="batch-status">
+                                    <span id="batch-current">0</span> / <span id="batch-total">0</span> ảnh đã xử lý
+                                </div>
+                                <div class="batch-progress-bar">
+                                    <div id="batch-progress-fill" class="batch-progress-fill"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="manga-results" id="manga-results">
+                            <div id="preview-placeholder">
+                                <i class="fas fa-images fa-3x"></i>
+                                <p>Tải ảnh lên để bắt đầu dịch truyện</p>
+                                <small>(Tối đa 30 ảnh)</small>
+                            </div>
+                        </div>
+                        
+                        <!-- Khung tổng hợp kết quả -->
+                        <div class="summary-section" id="summary-section" style="display: none;">
+                            <div class="summary-header">
+                                <h3><i class="fas fa-clipboard-list"></i> TỔNG HỢP KẾT QUẢ</h3>
+                                <div class="summary-actions">
+                                    <button class="copy-btn" onclick="copyText('summary-ocr-all')">
+                                        <i class="fas fa-copy"></i> Copy tất cả OCR
+                                    </button>
+                                    <button class="copy-btn" onclick="copyText('summary-translation-all')">
+                                        <i class="fas fa-copy"></i> Copy tất cả bản dịch
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="summary-content">
+                                <div class="summary-column">
+                                    <div class="summary-column-header">
+                                        <h4><i class="fas fa-eye"></i> TẤT CẢ OCR</h4>
+                                    </div>
+                                    <div id="summary-ocr-all" class="summary-text">Chưa có kết quả OCR</div>
+                                </div>
+                                
+                                <div class="summary-column">
+                                    <div class="summary-column-header">
+                                        <h4><i class="fas fa-language"></i> TẤT CẢ BẢN DỊCH</h4>
+                                    </div>
+                                    <div id="summary-translation-all" class="summary-text">Chưa có bản dịch</div>
+                                </div>
+                            </div>
+                            
+                            <div class="summary-note">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <strong>Lưu ý về xưng hô:</strong> Khi dịch trực tiếp từ trang truyện, AI không có thông tin về mối quan hệ giữa các nhân vật, vì vậy xưng hô có thể không chính xác. Để có kết quả tốt nhất với xưng hô đúng, bạn nên sử dụng chức năng dịch văn bản ở trang chủ với đầy đủ thông tin về nhân vật và mối quan hệ.
+                            </div>
+                        </div>
+                        
+                        <div class="process-controls">
+                            <div id="loading-indicator" class="loading-indicator">
+                                <i class="fas fa-spinner fa-spin"></i> ĐANG XỬ LÝ...
+                            </div>
+                            
+                            <div id="progress-container" class="progress-container">
+                                <div class="progress-bar">
+                                    <div id="progress-bar" class="progress" style="width: 0%"></div>
+                                </div>
+                                <div id="progress-status" class="progress-status">Đang chuẩn bị...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-column">
+                        <h3>Liên kết hữu ích</h3>
+                        <ul>
+                            <li><a href="https://aistudio.google.com/apikey" target="_blank"><i class="fas fa-key"></i> Google AI Studio API</a></li>
+                            <li><a href="huong-dan-su-dung.html"><i class="fas fa-book"></i> Hướng dẫn sử dụng</a></li>
+                            <li><a href="https://discord.gg/pf26Duy" target="_blank"><i class="fa-brands fa-discord"></i> Discord Động Mòe</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>© 2025 Công cụ dịch thuật Manga | Phát triển bởi Động Mòe</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    
+    <script src="manga-page.js" defer></script>
+    <script src="mobile-touch.js" defer></script>
+    <script src="analytics.js" defer></script>
+    
+    <!-- Script cho tính năng zoom ảnh -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Kiểm tra xem có phải thiết bị mobile không
+            function isMobileDevice() {
+                return window.innerWidth <= 768 || 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            }
+            
+            // Hàm xử lý zoom ảnh khi di chuột
+            function initializeImageZoom() {
+                // Tắt zoom trên mobile
+                if (isMobileDevice()) {
+                    return;
+                }
+                
+                const mangaResults = document.getElementById('manga-results');
+                
+                if (mangaResults) {
+                    // Sử dụng event delegation để xử lý các ảnh được thêm động
+                    mangaResults.addEventListener('mouseover', function(e) {
+                        if (e.target.tagName === 'IMG' && e.target.closest('.manga-image-section')) {
+                            setupImageZoom(e.target);
+                        }
+                    });
+                }
+            }
+            
+            function setupImageZoom(img) {
+                const imageSection = img.closest('.manga-image-section');
+                
+                function handleMouseMove(e) {
+                    const rect = img.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    
+                    // Đặt transform-origin theo vị trí chuột
+                    img.style.transformOrigin = `${x}% ${y}%`;
+                }
+                
+                function handleMouseLeave() {
+                    // Reset transform-origin về center khi rời chuột
+                    img.style.transformOrigin = 'center center';
+                    // Loại bỏ event listeners
+                    img.removeEventListener('mousemove', handleMouseMove);
+                    img.removeEventListener('mouseleave', handleMouseLeave);
+                }
+                
+                // Thêm event listeners
+                img.addEventListener('mousemove', handleMouseMove);
+                img.addEventListener('mouseleave', handleMouseLeave);
+                
+                // Đặt transform-origin ban đầu
+                const rect = img.getBoundingClientRect();
+                const initialEvent = window.event || {};
+                if (initialEvent.clientX && initialEvent.clientY) {
+                    const x = ((initialEvent.clientX - rect.left) / rect.width) * 100;
+                    const y = ((initialEvent.clientY - rect.top) / rect.height) * 100;
+                    img.style.transformOrigin = `${x}% ${y}%`;
+                }
+            }
+            
+            // Khởi tạo tính năng zoom
+            initializeImageZoom();
+            
+            // Cũng xử lý cho ảnh hiện có (nếu có) - chỉ trên desktop
+            if (!isMobileDevice()) {
+                document.querySelectorAll('.manga-image-section img').forEach(img => {
+                    img.addEventListener('mouseenter', function(e) {
+                        setupImageZoom(e.target);
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

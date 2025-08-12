@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phân tích chương truyện - Công cụ Dịch Truyện AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Thêm các thư viện cần thiết -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="site-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <h1>Công cụ dịch thuật Manga</h1>
+                        <p class="tagline">Dịch truyện với xưng hô chính xác</p>
+                    </div>
+                    <div class="header-actions">
+                        <a href="https://discord.gg/pf26Duy" target="_blank" class="btn-outline">
+                            <i class="fab fa-discord"></i> Discord
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-container">
+                    <ul class="nav-links">
+                        <li><a href="index.html"><i class="fas fa-home"></i> Trang Chủ</a></li>
+                        <li><a href="dich-trang-truyen.html"><i class="fas fa-book-open"></i> Dịch trang truyện</a></li>
+                        <li><a href="phan-tich-truyen.html" class="active"><i class="fas fa-chart-bar"></i> Phân tích truyện</a></li>
+                        <li><a href="huong-dan-su-dung.html"><i class="fas fa-book"></i> Hướng Dẫn</a></li>
+                        <li><a href="adobe-ban-quyen.html"><i class="fas fa-tags"></i> Adobe bản quyền</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Phần thông báo hệ thống -->
+        <div class="notification-banner hide" id="notification-banner">
+            <div class="container">
+                <div class="notification-content">
+                    <div class="notification-icon">
+                        <i class="fas fa-info-circle" id="notification-icon"></i>
+                    </div>
+                    <span id="notification-message"></span>
+                    <button id="close-notification" class="close-notification" aria-label="Đóng thông báo">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <main class="site-main">
+            <div class="container">
+                <div class="intro-section">
+                    <div class="intro-content">
+                        <h2>Phân tích chương truyện AI</h2>
+                        <p>Công cụ giúp bạn phân tích tóm tắt nội dung chương truyện, trích xuất thông tin nhân vật và bối cảnh từ tập ảnh manga.</p>
+                        
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <i class="fas fa-book"></i>
+                                <span>Phân tích nội dung</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-users"></i>
+                                <span>Thông tin nhân vật</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <span>Phân tích bối cảnh</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Tải lên file ZIP</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="app-container">
+                    <div class="settings-panel">
+                        <h2><i class="fas fa-cog"></i> Cài đặt phân tích</h2>
+                        
+                        <div class="notice">
+                            <div class="notice-header">
+                                <i class="fas fa-info-circle"></i> Thông tin quan trọng
+                            </div>
+                            <div class="notice-content">
+                                <p><strong>Lưu ý:</strong> Công cụ này sử dụng API từ Google AI Studio để phân tích hình ảnh truyện tranh.</p>
+                                <p>Quá trình phân tích sẽ diễn ra theo các bước:</p>
+                                <ol>
+                                    <li>Tải lên file ZIP chứa ảnh truyện (chỉ chứa ảnh, không thư mục)</li>
+                                    <li>Xử lý và chuẩn bị dữ liệu từ ảnh để phân tích</li>
+                                    <li>Gửi dữ liệu đến Google Gemini AI để phân tích chuyên sâu</li>
+                                    <li>Hiển thị kết quả phân tích theo các mục: Nội dung, Nhân vật và Bối cảnh</li>
+                                </ol>
+                                <p>Google AI Studio có giới hạn 1 lần gọi mỗi phút và 25 lần mỗi ngày. Hãy sử dụng API một cách hợp lý.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-section api-key-section" id="google-section">
+                            <h3><i class="fas fa-key"></i> API Key (Google AI Studio)</h3>
+                            <p class="api-key-intro">Để sử dụng công cụ, bạn cần nhập API key từ <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></p>
+                            <div class="api-key-container">
+                                <input type="password" id="google-api-key-input" class="full-width" placeholder="Nhập API key của Google...">
+                                <button type="button" id="toggle-api-key-btn" class="toggle-btn"><i class="fas fa-eye"></i></button>
+                            </div>
+                            <p class="api-key-notice">API key sẽ được lưu trong trình duyệt của bạn và không được chia sẻ.</p>
+                            <button type="button" id="save-api-key-btn" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Lưu API Key
+                            </button>
+                            <p class="api-key-notice api-limit-notice"><strong>Lưu ý:</strong> Google AI Studio có giới hạn 1 lần gọi/phút và 25 lần gọi/ngày.</p>
+                        </div>
+                        
+                        <div class="settings-section manga-type-section">
+                            <h3><i class="fas fa-book-open"></i> Loại truyện</h3>
+                            <p class="manga-type-intro">Chọn loại truyện để được phân tích tối ưu</p>
+                            <div class="manga-type-container">
+                                <select id="manga-type-select" class="full-width">
+                                    <option value="manga" selected>Manga (Nhật Bản)</option>
+                                    <option value="manhwa">Manhwa (Hàn Quốc)</option>
+                                    <option value="manhua">Manhua (Trung Quốc)</option>
+                                </select>
+                            </div>
+                            <p class="manga-type-notice">Việc chọn đúng loại truyện sẽ giúp AI hiểu rõ hơn về phong cách và cách đọc truyện.</p>
+                        </div>
+                        
+                        <div class="settings-section file-upload-section">
+                            <h3><i class="fas fa-file-archive"></i> Tải lên file truyện</h3>
+                            <p class="file-upload-intro">Tải lên file ZIP chứa tất cả hình ảnh của một chương truyện.</p>
+                            <div class="file-upload-container">
+                                <label for="zip-file-input" class="file-upload-btn">
+                                    <i class="fas fa-cloud-upload-alt"></i> Chọn file ZIP
+                                </label>
+                                <input type="file" id="zip-file-input" accept=".zip">
+                            </div>
+                            <p class="file-upload-notice"><strong>Lưu ý:</strong> File ZIP chỉ được chứa tối đa 50 ảnh và không được nặng quá 25MB, không được chứa thư mục hoặc các loại file khác. Nhớ ấn <strong>Phân tích truyện</strong> sau khi xử lý file xong</p>
+                            <div id="file-info" class="file-info"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="translation-panel">
+                        <h2><i class="fas fa-chart-bar"></i> Phân tích chương truyện</h2>
+                        
+                        <div class="translation-progress">
+                            <div class="progress-step step-1" id="progress-step-1">
+                                <span>1. Tải file</span>
+                            </div>
+                            <div class="progress-step step-2" id="progress-step-2">
+                                <span>2. Xử lý file</span>
+                            </div>
+                            <div class="progress-step step-3" id="progress-step-3">
+                                <span>3. Phân tích</span>
+                            </div>
+                            <div class="progress-step step-4" id="progress-step-4">
+                                <span>4. Kết quả</span>
+                            </div>
+                        </div>
+                        
+                        <div class="action-section">
+                            <div class="controls">
+                                <button id="analyze-btn" class="btn btn-primary" disabled>
+                                    <i class="fas fa-brain"></i> Phân tích truyện
+                                </button>
+                                <div id="loading-indicator" class="loading-indicator" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i> ĐANG XỬ LÝ...
+                                </div>
+                            </div>
+                            
+                            <div id="progress-container" class="progress-container" style="display: none;">
+                                <div class="progress-bar">
+                                    <div id="progress-bar" class="progress" style="width: 0%"></div>
+                                </div>
+                                <div id="progress-status" class="progress-status">Đang chuẩn bị...</div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-section">
+                            <h3><i class="fas fa-book"></i> Kết quả phân tích</h3>
+                            <div class="analysis-results">
+                                <div class="analysis-card" data-type="content">
+                                    <div class="analysis-card-header">
+                                        <i class="fas fa-file-alt"></i> Nội dung
+                                    </div>
+                                    <div class="analysis-card-body">
+                                        <div id="content-result" class="result-box">
+                                            <p class="placeholder-text">Tóm tắt nội dung của chương truyện sẽ được hiển thị ở đây sau khi phân tích.</p>
+                                        </div>
+                                        <button id="copy-content-btn" class="btn btn-small" disabled>
+                                            <i class="fas fa-copy"></i> Sao chép
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="analysis-card" data-type="characters">
+                                    <div class="analysis-card-header">
+                                        <i class="fas fa-users"></i> Nhân vật
+                                    </div>
+                                    <div class="analysis-card-body">
+                                        <div id="characters-result" class="result-box">
+                                            <p class="placeholder-text">Danh sách nhân vật và hành động của họ sẽ được hiển thị ở đây sau khi phân tích.</p>
+                                        </div>
+                                        <button id="copy-characters-btn" class="btn btn-small" disabled>
+                                            <i class="fas fa-copy"></i> Sao chép
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="analysis-card" data-type="setting">
+                                    <div class="analysis-card-header">
+                                        <i class="fas fa-map-marked-alt"></i> Bối cảnh
+                                    </div>
+                                    <div class="analysis-card-body">
+                                        <div id="setting-result" class="result-box">
+                                            <p class="placeholder-text">Thông tin về bối cảnh, không gian, thời gian trong truyện sẽ được hiển thị ở đây sau khi phân tích.</p>
+                                        </div>
+                                        <button id="copy-setting-btn" class="btn btn-small" disabled>
+                                            <i class="fas fa-copy"></i> Sao chép
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="site-footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-column">
+                        <h3>Liên kết</h3>
+                        <ul>
+                            <li><a href="index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+                            <li><a href="dich-trang-truyen.html"><i class="fas fa-book-open"></i> Dịch trang truyện</a></li>
+                            <li><a href="phan-tich-truyen.html"><i class="fas fa-chart-bar"></i> Phân tích truyện</a></li>
+                            <li><a href="huong-dan-su-dung.html"><i class="fas fa-book"></i> Hướng dẫn sử dụng</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="copyright">
+                    <p>&copy; 2024 Công cụ dịch truyện AI. Mọi quyền được bảo lưu.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script src="phan-tich-truyen.js"></script>
+    <script src="mobile-touch.js"></script>
+    <script src="analytics.js"></script>
+</body>
+</html> 
