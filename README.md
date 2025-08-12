@@ -1,6 +1,6 @@
 # Công cụ dịch thuật AI
 
-Ứng dụng dịch thuật giúp dịch văn bản với việc quản lý xưng hô, mối quan hệ, văn phong và các yêu cầu tùy chỉnh. Ứng dụng sử dụng Puter AI (Gemini 2.5 Pro) để tạo bản dịch chất lượng cao.
+Ứng dụng dịch thuật giúp dịch văn bản với việc quản lý xưng hô, mối quan hệ, văn phong và các yêu cầu tùy chỉnh. Ứng dụng sử dụng Gemini 2.5 Pro để tạo bản dịch chất lượng cao.
 
 ## Tính năng
 
